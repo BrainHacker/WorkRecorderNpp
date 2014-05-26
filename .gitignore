@@ -1,2 +1,7 @@
+debug-instance/
+Debug/
+Release/
 *.sdf
 *.suo
+*.opensdf
+*.user
