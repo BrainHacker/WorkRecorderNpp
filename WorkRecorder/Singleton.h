@@ -6,13 +6,13 @@ template<typename T>
 class Singleton
 {
 public:
-	Singleton();
-	virtual ~Singleton();
+    Singleton() = default;
+    virtual ~Singleton();
 
-	T& getInstance();
-	void destroy();
+    static T& getInstance();
+    static void destroy();
 
 private:
-	mutex guard;
-	T* instance;
+    static mutex guard;
+    static T* instance;
 };

@@ -1,103 +1,70 @@
-//this file is part of notepad++
-//Copyright (C)2003 Don HO <donho@altern.org>
-//
-//This program is free software; you can redistribute it and/or
-//modify it under the terms of the GNU General Public License
-//as published by the Free Software Foundation; either
-//version 2 of the License, or (at your option) any later version.
-//
-//This program is distributed in the hope that it will be useful,
-//but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//GNU General Public License for more details.
-//
-//You should have received a copy of the GNU General Public License
-//along with this program; if not, write to the Free Software
-//Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// Plugin core class for maintaining of load/unload process
 
 #include "common.h"
 
-extern FuncItem funcItem[nbFunc];
-extern NppData nppData;
-
-
-BOOL APIENTRY DllMain( HANDLE hModule, 
-                       DWORD  reasonForCall, 
-                       LPVOID lpReserved )
+const TCHAR* PluginCore::strPluginName = TEXT("Work Recorder");
+const TCHAR* PluginCore::strCommandNames[PluginCore::cTotal] =
 {
-    switch (reasonForCall)
-    {
-      case DLL_PROCESS_ATTACH:
-        pluginInit(hModule);
-        break;
+    TEXT("Show Work Recorder"),
+};
 
-      case DLL_PROCESS_DETACH:
-        pluginCleanUp();
-        break;
-
-      case DLL_THREAD_ATTACH:
-        break;
-
-      case DLL_THREAD_DETACH:
-        break;
-    }
-
-    return TRUE;
-}
-
-
-extern "C" __declspec(dllexport) void setInfo(NppData notpadPlusData)
+PluginCore::PluginCore()
 {
-	nppData = notpadPlusData;
-	commandMenuInit();
+    init();
 }
 
-extern "C" __declspec(dllexport) const TCHAR * getName()
+void PluginCore::init()
 {
-	return NPP_PLUGIN_NAME;
+    initCommand(&functionsArray[cShowMainDlg], strCommandNames[cShowMainDlg], onShowMainDlg);
 }
 
-extern "C" __declspec(dllexport) FuncItem * getFuncsArray(int *nbF)
+void PluginCore::initCommand(FuncItem* item, const TCHAR* name, PFUNCPLUGINCMD pFunc,
+    ShortcutKey* sk /*= 0*/, bool checkOnInit /*=false*/)
 {
-	*nbF = nbFunc;
-	return funcItem;
+    assert(item, Constants::strNullPtr);
+
+    lstrcpy(item->_itemName, name);
+    item->_pFunc = pFunc;
+    item->_pShKey = sk;
+    item->_init2Check = checkOnInit;
 }
 
-
-extern "C" __declspec(dllexport) void beNotified(SCNotification *notifyCode)
+void PluginCore::setNppData(const NppData& data)
 {
-	switch (notifyCode->nmhdr.code) 
-	{
-		case NPPN_SHUTDOWN:
-		{
-			commandMenuCleanUp();
-		}
-		break;
-
-		default:
-			return;
-	}
+    nppData = data;
 }
 
-
-// Here you can process the Npp Messages 
-// I will make the messages accessible little by little, according to the need of plugin development.
-// Please let me know if you need to access to some messages :
-// http://sourceforge.net/forum/forum.php?forum_id=482781
-//
-extern "C" __declspec(dllexport) LRESULT messageProc(UINT Message, WPARAM wParam, LPARAM lParam)
-{/*
-	if (Message == WM_MOVE)
-	{
-		::MessageBox(NULL, "move", "", MB_OK);
-	}
-*/
-	return TRUE;
-}
-
-#ifdef UNICODE
-extern "C" __declspec(dllexport) BOOL isUnicode()
+const NppData& PluginCore::getNppData() const
 {
-    return TRUE;
+    return nppData;
 }
-#endif //UNICODE
+
+FuncItem* PluginCore::getFunctionsArray(uint* count)
+{
+    assert(count, Constants::strNullPtr);
+
+    *count = cTotal;
+    return functionsArray;
+}
+
+void PluginCore::onShowMainDlg()
+{
+    const NppData& nppData = PluginCore::getInstance().getNppData();
+
+    //// Open a new document
+    //::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_NEW);
+
+    // Get the current scintilla
+    int which = -1;
+    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+    if (which == -1)
+        return;
+
+    HWND curScintilla = (which == 0) ? nppData._scintillaMainHandle : nppData._scintillaSecondHandle;
+
+    //// Say hello now :
+    //// Scintilla control has no Unicode mode, so we use (char *) here
+    //::SendMessage(curScintilla, SCI_SETTEXT, 0, (LPARAM)"Hello, Notepad++!");
+
+    MessageBox(curScintilla, TEXT("Main dialog"), TEXT("Work Recorder"), MB_OK);
+}

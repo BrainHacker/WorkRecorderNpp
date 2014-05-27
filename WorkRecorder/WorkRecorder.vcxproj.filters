@@ -45,8 +45,14 @@
     <ClCompile Include="PluginCore.cpp">
       <Filter>Source Files\Npp</Filter>
     </ClCompile>
-    <ClCompile Include="PluginDefinition.cpp">
-      <Filter>Source Files\Npp</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Constants.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions.cpp">
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,9 +63,6 @@
       <Filter>Header Files\Npp</Filter>
     </ClInclude>
     <ClInclude Include="Notepad_plus_msgs.h">
-      <Filter>Header Files\Npp</Filter>
-    </ClInclude>
-    <ClInclude Include="PluginDefinition.h">
       <Filter>Header Files\Npp</Filter>
     </ClInclude>
     <ClInclude Include="PluginInterface.h">
@@ -75,6 +78,18 @@
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="SingletonImpl.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="PluginCore.h">
+      <Filter>Header Files\Npp</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
   </ItemGroup>
