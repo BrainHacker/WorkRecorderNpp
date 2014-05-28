@@ -66,5 +66,6 @@ void PluginCore::onShowMainDlg()
     //// Scintilla control has no Unicode mode, so we use (char *) here
     //::SendMessage(curScintilla, SCI_SETTEXT, 0, (LPARAM)"Hello, Notepad++!");
 
-    MessageBox(curScintilla, TEXT("Main dialog"), TEXT("Work Recorder"), MB_OK);
+    MainDlg dlg;
+    dlg.DoModal();
 }

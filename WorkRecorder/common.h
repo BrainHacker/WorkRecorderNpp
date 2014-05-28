@@ -6,6 +6,10 @@
 
 using namespace std;
 
+// WTL
+#include <atlbase.h>
+#include <atlapp.h>
+
 // Framework files
 #include "Types.h"
 #include "Constants.h"
@@ -19,3 +23,7 @@ using namespace std;
 // Plug-in files
 #include "PluginInterface.h"
 #include "PluginCore.h"
+
+// GUI
+#include "resource.h"
+#include "MainDlg.h"

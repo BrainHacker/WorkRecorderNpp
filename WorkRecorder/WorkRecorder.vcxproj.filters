@@ -54,6 +54,9 @@
     <ClCompile Include="Exceptions.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
+    <ClCompile Include="MainDlg.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -92,5 +95,13 @@
     <ClInclude Include="Types.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="MainDlg.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WorkRecorder.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
