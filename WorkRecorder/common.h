@@ -9,6 +9,7 @@ using namespace std;
 // WTL
 #include <atlbase.h>
 #include <atlapp.h>
+#include <atlframe.h>
 
 #include <atlstr.h>
 #define _WTL_NO_CSTRING

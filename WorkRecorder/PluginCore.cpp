@@ -81,11 +81,7 @@ void PluginCore::onShowMainDlg()
     PluginCore& plugin = PluginCore::getInstance();
     MainDlg& dlg = MainDlg::getInstance();
 
-    if (dlg.IsWindow())
-    {
-        dlg.show();
-    }
-    else
+    if (!dlg.IsWindow())
     {
         const NppData& nppData = plugin.getNppData();
         HWND parent = nppData._nppHandle;
@@ -105,4 +101,5 @@ void PluginCore::onShowMainDlg()
         ::SendMessage(parent, NPPM_DMMREGASDCKDLG, 0, (LPARAM)&data);
     }
 
+    dlg.show();
 }
