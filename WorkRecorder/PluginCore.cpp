@@ -2,7 +2,6 @@
 
 #include "common.h"
 
-const TCHAR* PluginCore::strPluginName = TEXT("Work Recorder");
 const TCHAR* PluginCore::strCommandNames[PluginCore::cTotal] =
 {
     TEXT("Show Work Recorder"),
@@ -10,11 +9,35 @@ const TCHAR* PluginCore::strCommandNames[PluginCore::cTotal] =
 
 PluginCore::PluginCore()
 {
-    init();
+}
+
+void PluginCore::setModuleHandle(HINSTANCE handle)
+{
+    moduleHandle = handle;
+}
+
+HINSTANCE PluginCore::getModuleHandle() const
+{
+    return moduleHandle;
+}
+
+const TCHAR* PluginCore::getModuleName() const
+{
+    return moduleName;
 }
 
 void PluginCore::init()
 {
+    // init module name
+    ::GetModuleFileName(moduleHandle, moduleName, MAX_PATH);
+    TCHAR* fileName = PathFindFileName(moduleName);
+
+    if (fileName != moduleName)
+    {
+        StringCchCopy(moduleName, MAX_PATH, fileName);
+    }
+
+    // init commands
     initCommand(&functionsArray[cShowMainDlg], strCommandNames[cShowMainDlg], onShowMainDlg);
 }
 
@@ -22,8 +45,8 @@ void PluginCore::initCommand(FuncItem* item, const TCHAR* name, PFUNCPLUGINCMD p
     ShortcutKey* sk /*= 0*/, bool checkOnInit /*=false*/)
 {
     assert(item, Constants::strNullPtr);
+    StringCchCopy(item->_itemName, nbChar, name);
 
-    lstrcpy(item->_itemName, name);
     item->_pFunc = pFunc;
     item->_pShKey = sk;
     item->_init2Check = checkOnInit;
@@ -43,32 +66,43 @@ FuncItem* PluginCore::getFunctionsArray(uint* count)
 {
     assert(count, Constants::strNullPtr);
 
+    if (!initialized)
+    {
+        init();
+        initialized = true;
+    }
+
     *count = cTotal;
     return functionsArray;
 }
 
 void PluginCore::onShowMainDlg()
 {
-    const NppData& nppData = PluginCore::getInstance().getNppData();
-
-    //// Open a new document
-    //::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_NEW);
-
-    // Get the current scintilla
-    int which = -1;
-    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
-    if (which == -1)
-        return;
-
-    HWND curScintilla = (which == 0) ? nppData._scintillaMainHandle : nppData._scintillaSecondHandle;
-
-    //// Say hello now :
-    //// Scintilla control has no Unicode mode, so we use (char *) here
-    //::SendMessage(curScintilla, SCI_SETTEXT, 0, (LPARAM)"Hello, Notepad++!");
-
+    PluginCore& plugin = PluginCore::getInstance();
     MainDlg& dlg = MainDlg::getInstance();
 
-    dlg.Create(NULL);
-    dlg.CenterWindow();
-    dlg.ShowWindow(SW_SHOW);
+    if (dlg.IsWindow())
+    {
+        dlg.show();
+    }
+    else
+    {
+        const NppData& nppData = plugin.getNppData();
+        HWND parent = nppData._nppHandle;
+
+        dlg.Create(parent);
+        ::SendMessage(parent, NPPM_MODELESSDIALOG, MODELESSDIALOGADD, (LPARAM)(HWND)dlg);
+
+        // fill dockable info
+        tTbData	data = {};
+
+        data.hClient       = (HWND)dlg;
+        data.pszName       = (TCHAR*)Constants::strPluginDisplayName;
+        data.dlgID         = cShowMainDlg;
+        data.uMask         = DWS_DF_CONT_RIGHT;
+        data.pszModuleName = plugin.getModuleName();
+        
+        ::SendMessage(parent, NPPM_DMMREGASDCKDLG, 0, (LPARAM)&data);
+    }
+
 }

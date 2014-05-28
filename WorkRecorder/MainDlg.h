@@ -6,8 +6,9 @@ public:
     enum { IDD = IDD_MAINDIALOG };
 
     BEGIN_MSG_MAP(MainDlg)
-        MESSAGE_HANDLER(WM_CLOSE, OnClose)
     END_MSG_MAP()
+
+    void show(bool showFlag = true);
 
 protected:
     MainDlg() = default;
@@ -16,5 +17,4 @@ protected:
     friend class Singleton<MainDlg>;
 
 private:
-    LRESULT OnClose(UINT msgId, WPARAM wP, LPARAM lP, BOOL& handled);
 };

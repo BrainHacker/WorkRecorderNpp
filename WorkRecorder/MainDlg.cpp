@@ -2,8 +2,8 @@
 
 #include "common.h"
 
-LRESULT MainDlg::OnClose(UINT msgId, WPARAM wP, LPARAM lP, BOOL& handled)
+void MainDlg::show(bool showFlag /*= true*/)
 {
-    ::EndDialog(m_hWnd, S_OK);
-    return S_OK;
+    HWND parent = PluginCore::getInstance().getNppData()._nppHandle;
+    ::SendMessage(parent, showFlag ? NPPM_DMMSHOW : NPPM_DMMHIDE, 0, (LPARAM)m_hWnd);
 }

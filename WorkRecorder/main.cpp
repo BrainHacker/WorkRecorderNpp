@@ -2,20 +2,24 @@
 
 #include "common.h"
 
-void pluginInit(HANDLE hModule)
+void pluginInit(HANDLE moduleHandle)
 {
+    PluginCore::getInstance().setModuleHandle((HINSTANCE)moduleHandle);
 }
 
 void pluginCleanUp()
 {
+    // destroy singletons
+    MainDlg::destroy();
+    PluginCore::destroy();
 }
 
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD reason, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HANDLE moduleHandle, DWORD reason, LPVOID lpReserved)
 {
     switch (reason)
     {
     case DLL_PROCESS_ATTACH:
-        pluginInit(hModule);
+        pluginInit(moduleHandle);
         break;
 
     case DLL_PROCESS_DETACH:
@@ -43,7 +47,7 @@ extern "C"
 
     __declspec(dllexport) const TCHAR * getName()
     {
-        return PluginCore::strPluginName;
+        return Constants::strPluginDisplayName;
     }
 
     __declspec(dllexport) FuncItem * getFuncsArray(int *nbF)
@@ -55,9 +59,13 @@ extern "C"
         return functionsArray;
     }
 
-    static void destroySingletons()
+    static void onNppShutdown()
     {
-        PluginCore::destroy();
+        MainDlg& dlg = MainDlg::getInstance();
+        HWND parent = PluginCore::getInstance().getNppData()._nppHandle;
+
+        ::SendMessage(parent, NPPM_MODELESSDIALOG, MODELESSDIALOGREMOVE, (LPARAM)(HWND)dlg);
+        dlg.DestroyWindow();
     }
 
     __declspec(dllexport) void beNotified(SCNotification *notifyCode)
@@ -66,7 +74,7 @@ extern "C"
         {
         case NPPN_SHUTDOWN:
         {
-            destroySingletons();
+            onNppShutdown();
         }
         break;
 

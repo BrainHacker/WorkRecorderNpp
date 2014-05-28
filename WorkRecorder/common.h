@@ -10,6 +10,13 @@ using namespace std;
 #include <atlbase.h>
 #include <atlapp.h>
 
+#include <atlstr.h>
+#define _WTL_NO_CSTRING
+
+// Windows
+#include <Strsafe.h>
+#include <Shlwapi.h>
+
 // Framework files
 #include "Types.h"
 #include "Constants.h"
@@ -19,6 +26,7 @@ using namespace std;
 
 // Notepad++ files
 #include "menuCmdID.h"
+#include "Docking.h"
 
 // Plug-in files
 #include "PluginInterface.h"

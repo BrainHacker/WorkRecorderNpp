@@ -98,6 +98,9 @@
     <ClInclude Include="MainDlg.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Docking.h">
+      <Filter>Header Files\Npp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WorkRecorder.rc">

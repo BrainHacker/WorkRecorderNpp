@@ -5,6 +5,11 @@
 class PluginCore : public Singleton<PluginCore>
 {
 public:
+    void setModuleHandle(HINSTANCE handle);
+    HINSTANCE getModuleHandle() const;
+
+    const TCHAR* getModuleName() const;
+
     void setNppData(const NppData& data);
     const NppData& getNppData() const;
 
@@ -18,8 +23,6 @@ public:
 
     /// Commands itself
     static void onShowMainDlg();
-
-    static const TCHAR* strPluginName;
 
 protected:
     PluginCore();
@@ -42,11 +45,16 @@ private:
     void initCommand(FuncItem* item, const TCHAR* name, PFUNCPLUGINCMD pFunc,
         ShortcutKey* sk = 0, bool checkOnInit = false);
 
+    bool initialized = false;
+
     // The plugin data that Notepad++ needs
     FuncItem functionsArray[cTotal];
 
     // The data of Notepad++ that can be used in plugin commands
-    NppData nppData;
+    NppData nppData = NppData{};
+
+    HINSTANCE moduleHandle = 0;
+    TCHAR moduleName[MAX_PATH];
 
     static const TCHAR* strCommandNames[cTotal];
 };
