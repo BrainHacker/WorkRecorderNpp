@@ -57,6 +57,12 @@
     <ClCompile Include="MainDlg.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="PlaybackTab.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordTab.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -100,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="Docking.h">
       <Filter>Header Files\Npp</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgTabCtrl.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaybackTab.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordTab.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

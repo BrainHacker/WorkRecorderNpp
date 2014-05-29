@@ -10,6 +10,7 @@ using namespace std;
 #include <atlbase.h>
 #include <atlapp.h>
 #include <atlframe.h>
+#include <atlctrls.h>
 
 #include <atlstr.h>
 #define _WTL_NO_CSTRING
@@ -35,4 +36,7 @@ using namespace std;
 
 // GUI
 #include "resource.h"
+#include "DlgTabCtrl.h"
+#include "PlaybackTab.h"
+#include "RecordTab.h"
 #include "MainDlg.h"

@@ -12,4 +12,8 @@ public:
     // Error descriptions
     static const char* strNullPtr;
     static const char* strIndexOutOfRange;
+
+    // GUI
+    static const TCHAR* strPlaybackTabName;
+    static const TCHAR* strRecordTabName;
 };

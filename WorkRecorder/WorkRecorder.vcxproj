@@ -125,18 +125,23 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PlaybackTab.cpp" />
     <ClCompile Include="PluginCore.cpp" />
+    <ClCompile Include="RecordTab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="DlgTabCtrl.h" />
     <ClInclude Include="Docking.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="menuCmdID.h" />
     <ClInclude Include="Notepad_plus_msgs.h" />
+    <ClInclude Include="PlaybackTab.h" />
     <ClInclude Include="PluginCore.h" />
     <ClInclude Include="PluginInterface.h" />
+    <ClInclude Include="RecordTab.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scintilla.h" />
     <ClInclude Include="Singleton.h" />
@@ -149,4 +154,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="WorkRecorder.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
