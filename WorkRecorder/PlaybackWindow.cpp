@@ -2,6 +2,29 @@
 
 #include "common.h"
 
+PlaybackWindow::SpeedInfo PlaybackWindow::speedArray[PlaybackWindow::numSpeedCount] =
+{
+    { TEXT("-10.0"), -10.0f  },
+    { TEXT("-5.0"),  - 5.0f  },
+    { TEXT("-2.5"),  - 2.5f  },
+    { TEXT("-2.0"),  - 2.0f  },
+    { TEXT("-1.5"),  - 1.5f  },
+    { TEXT("-1.0"),  - 1.0f  },
+    { TEXT("-0.5"),  - 0.5f  },
+    { TEXT("-0.2"),  - 0.2f  },
+    { TEXT("-0.1"),  - 0.1f  },
+    { TEXT("0.0"),     0.0f  },
+    { TEXT("0.1"),     0.1f  },
+    { TEXT("0.2"),     0.2f  },
+    { TEXT("0.5"),     0.5f  },
+    { TEXT("1.0"),     1.0f  },
+    { TEXT("1.5"),     1.5f  },
+    { TEXT("2.0"),     2.0f  },
+    { TEXT("2.5"),     2.5f  },
+    { TEXT("5.0"),     5.0f  },
+    { TEXT("10.0"),   10.0f  },
+};
+
 void PlaybackWindow::show(bool showFlag /*= true*/)
 {
     HWND parent = PluginCore::getInstance().getNppData()._nppHandle;
@@ -11,7 +34,9 @@ void PlaybackWindow::show(bool showFlag /*= true*/)
 LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 {
     GuiUtils::setSystemDefaultFont(*this);
+
     initButtons();
+    initSpeedControl();
 
     DlgResize_Init(false, false, 0);
     return S_OK;
@@ -63,4 +88,23 @@ void PlaybackWindow::setButtonText(uint id, const WCHAR* text,
         font = logFont.CreateFontIndirect();
         button.SetFont(font);
     }
+}
+
+void PlaybackWindow::initSpeedControl()
+{
+    uint currentSpeedIndex = 0;
+    CComboBox box = GetDlgItem(IDC_PLAY_SPEEDCOMBOBOX);
+
+    for (uint index = 0; index < numSpeedCount; ++index)
+    {
+        const SpeedInfo& info = speedArray[index];
+        box.AddString(info.displayText);
+
+        if (info.value == 1.0f)
+        {
+            currentSpeedIndex = index;
+        }
+    }
+
+    box.SetCurSel(currentSpeedIndex);
 }
