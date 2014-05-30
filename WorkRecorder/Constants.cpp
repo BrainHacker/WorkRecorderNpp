@@ -11,5 +11,11 @@ const char* Constants::strNullPtr = "Null ptr";
 const char* Constants::strIndexOutOfRange = "Index out of range";
 
 // GUI
-const TCHAR* Constants::strPlaybackTabName = TEXT("Playback");
-const TCHAR* Constants::strRecordTabName = TEXT("Recording");;
+//  Menu
+const TCHAR* Constants::strShowPlaybackWindow = TEXT("Show Playback Window");
+const TCHAR* Constants::strShowRecordingWindow = TEXT("Show Recording Window");
+
+//  Windows
+const TCHAR* Constants::strPlaybackWindowTitle = TEXT("Work Playback");
+const TCHAR* Constants::strRecordWindowTitle = TEXT("Work Recording");;
+

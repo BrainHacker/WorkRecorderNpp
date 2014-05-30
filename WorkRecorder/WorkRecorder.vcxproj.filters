@@ -54,13 +54,10 @@
     <ClCompile Include="Exceptions.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="MainDlg.cpp">
+    <ClCompile Include="PlaybackWindow.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="PlaybackTab.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="RecordTab.cpp">
+    <ClCompile Include="RecordingWindow.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,19 +98,13 @@
     <ClInclude Include="Types.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="MainDlg.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Docking.h">
       <Filter>Header Files\Npp</Filter>
     </ClInclude>
-    <ClInclude Include="DlgTabCtrl.h">
+    <ClInclude Include="PlaybackWindow.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="PlaybackTab.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="RecordTab.h">
+    <ClInclude Include="RecordingWindow.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>

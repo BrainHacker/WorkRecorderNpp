@@ -15,14 +15,19 @@ public:
 
     enum Commands
     {
-        cShowMainDlg = 0,
+        cShowPlaybackWindow = 0,
+        cShowRecordingWindow,
         cTotal,
     };
 
     FuncItem* getFunctionsArray(uint* count);
 
     /// Commands itself
-    static void onShowMainDlg();
+    static void onShowPlaybackWindow();
+    static void onShowRecordingWindow();
+
+    template<typename Wnd>
+    static void showWindow(int id, const TCHAR* title);
 
 protected:
     PluginCore();
@@ -55,6 +60,4 @@ private:
 
     HINSTANCE moduleHandle = 0;
     TCHAR moduleName[MAX_PATH];
-
-    static const TCHAR* strCommandNames[cTotal];
 };

@@ -36,7 +36,5 @@ using namespace std;
 
 // GUI
 #include "resource.h"
-#include "DlgTabCtrl.h"
-#include "PlaybackTab.h"
-#include "RecordTab.h"
-#include "MainDlg.h"
+#include "PlaybackWindow.h"
+#include "RecordingWindow.h"

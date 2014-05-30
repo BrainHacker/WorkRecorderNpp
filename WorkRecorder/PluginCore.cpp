@@ -2,11 +2,6 @@
 
 #include "common.h"
 
-const TCHAR* PluginCore::strCommandNames[PluginCore::cTotal] =
-{
-    TEXT("Show Work Recorder"),
-};
-
 PluginCore::PluginCore()
 {
 }
@@ -38,7 +33,8 @@ void PluginCore::init()
     }
 
     // init commands
-    initCommand(&functionsArray[cShowMainDlg], strCommandNames[cShowMainDlg], onShowMainDlg);
+    initCommand(&functionsArray[cShowPlaybackWindow],  Constants::strShowPlaybackWindow,  onShowPlaybackWindow );
+    initCommand(&functionsArray[cShowRecordingWindow], Constants::strShowRecordingWindow, onShowRecordingWindow);
 }
 
 void PluginCore::initCommand(FuncItem* item, const TCHAR* name, PFUNCPLUGINCMD pFunc,
@@ -76,10 +72,24 @@ FuncItem* PluginCore::getFunctionsArray(uint* count)
     return functionsArray;
 }
 
-void PluginCore::onShowMainDlg()
+//static
+void PluginCore::onShowPlaybackWindow()
+{
+    showWindow<PlaybackWindow>(cShowPlaybackWindow, Constants::strPlaybackWindowTitle);
+}
+
+//static
+void PluginCore::onShowRecordingWindow()
+{
+    showWindow<RecordingWindow>(cShowRecordingWindow, Constants::strRecordWindowTitle);
+}
+
+//static
+template<typename Wnd>
+void PluginCore::showWindow(int id, const TCHAR* title)
 {
     PluginCore& plugin = PluginCore::getInstance();
-    MainDlg& dlg = MainDlg::getInstance();
+    Wnd& dlg = Wnd::getInstance();
 
     if (!dlg.IsWindow())
     {
@@ -93,8 +103,8 @@ void PluginCore::onShowMainDlg()
         tTbData	data = {};
 
         data.hClient       = (HWND)dlg;
-        data.pszName       = (TCHAR*)Constants::strPluginDisplayName;
-        data.dlgID         = cShowMainDlg;
+        data.pszName       = (TCHAR*)title;
+        data.dlgID         = id;
         data.uMask         = DWS_DF_CONT_RIGHT;
         data.pszModuleName = plugin.getModuleName();
         

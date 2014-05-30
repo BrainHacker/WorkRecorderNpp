@@ -14,6 +14,11 @@ public:
     static const char* strIndexOutOfRange;
 
     // GUI
-    static const TCHAR* strPlaybackTabName;
-    static const TCHAR* strRecordTabName;
+    //  Menu
+    static const TCHAR* strShowPlaybackWindow;
+    static const TCHAR* strShowRecordingWindow;
+
+    //  Windows
+    static const TCHAR* strPlaybackWindowTitle;
+    static const TCHAR* strRecordWindowTitle;
 };

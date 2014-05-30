@@ -10,7 +10,8 @@ void pluginInit(HANDLE moduleHandle)
 void pluginCleanUp()
 {
     // destroy singletons
-    MainDlg::destroy();
+    PlaybackWindow::destroy();
+    RecordingWindow::destroy();
     PluginCore::destroy();
 }
 
@@ -36,8 +37,22 @@ BOOL APIENTRY DllMain(HANDLE moduleHandle, DWORD reason, LPVOID lpReserved)
     return TRUE;
 }
 
-// Implementation of plugin interface
+template<typename Wnd>
+static void removePluginWindow(HWND parent)
+{
+    Wnd& dlg = Wnd::getInstance();
+    ::SendMessage(parent, NPPM_MODELESSDIALOG, MODELESSDIALOGREMOVE, (LPARAM)(HWND)dlg);
+    dlg.DestroyWindow();
+}
 
+static void onNppShutdown()
+{
+    HWND parent = PluginCore::getInstance().getNppData()._nppHandle;
+    removePluginWindow<PlaybackWindow>(parent);
+    removePluginWindow<RecordingWindow>(parent);
+}
+
+// Implementation of plugin interface
 extern "C"
 {
     __declspec(dllexport) void setInfo(NppData notpadPlusData)
@@ -57,15 +72,6 @@ extern "C"
 
         *nbF = (int)count;
         return functionsArray;
-    }
-
-    static void onNppShutdown()
-    {
-        MainDlg& dlg = MainDlg::getInstance();
-        HWND parent = PluginCore::getInstance().getNppData()._nppHandle;
-
-        ::SendMessage(parent, NPPM_MODELESSDIALOG, MODELESSDIALOGREMOVE, (LPARAM)(HWND)dlg);
-        dlg.DestroyWindow();
     }
 
     __declspec(dllexport) void beNotified(SCNotification *notifyCode)
