@@ -11,7 +11,10 @@ public:
     enum { IDD = IDD_PLAYBACKDLG };
 
     BEGIN_DLGRESIZE_MAP(PlaybackWindow)
-        DLGRESIZE_CONTROL(IDOK, DLSZ_MOVE_X)
+        DLGRESIZE_CONTROL(IDC_PLAY_CHOOSERECORDSTATIC, DLSZ_SIZE_X)
+        DLGRESIZE_CONTROL(IDC_PLAY_RECORDFILEEDIT, DLSZ_SIZE_X)
+        DLGRESIZE_CONTROL(IDC_PLAY_BROWSEBUTTON, DLSZ_MOVE_X)
+        DLGRESIZE_CONTROL(IDC_PLAY_CONTROLSSTATIC, DLSZ_SIZE_X)
     END_DLGRESIZE_MAP()
 
     BEGIN_MSG_MAP(PlaybackWindow)
@@ -30,4 +33,9 @@ protected:
 private:
     /// Message handlers
     LRESULT OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
+
+
+    /// Init buttons
+    void initButtons();
+    void setButtonText(uint id, const WCHAR* text, bool changeFont = true, uint fontSize = 9);
 };

@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="Exceptions.cpp" />
+    <ClCompile Include="GuiUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -133,6 +134,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Docking.h" />
     <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="GuiUtils.h" />
     <ClInclude Include="menuCmdID.h" />
     <ClInclude Include="Notepad_plus_msgs.h" />
     <ClInclude Include="PlaybackWindow.h" />

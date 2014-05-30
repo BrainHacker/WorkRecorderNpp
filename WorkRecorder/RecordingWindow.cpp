@@ -10,6 +10,8 @@ void RecordingWindow::show(bool showFlag /*= true*/)
 
 LRESULT RecordingWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 {
+    GuiUtils::setSystemDefaultFont(*this);
+
     DlgResize_Init(false, false, 0);
     return S_OK;
 }

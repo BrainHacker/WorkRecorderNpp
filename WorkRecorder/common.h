@@ -36,5 +36,6 @@ using namespace std;
 
 // GUI
 #include "resource.h"
+#include "GuiUtils.h"
 #include "PlaybackWindow.h"
 #include "RecordingWindow.h"

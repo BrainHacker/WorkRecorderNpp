@@ -2,23 +2,31 @@
 
 #pragma once
 
-class Constants
+namespace Constants
 {
-public:
     // Plugin description
-    static const TCHAR* strPluginDisplayName;
-    static const TCHAR* strPluginShortName;
+    extern const TCHAR* strPluginDisplayName;
+    extern const TCHAR* strPluginShortName;
 
     // Error descriptions
-    static const char* strNullPtr;
-    static const char* strIndexOutOfRange;
+    extern const char* strNullPtr;
+    extern const char* strIndexOutOfRange;
 
     // GUI
     //  Menu
-    static const TCHAR* strShowPlaybackWindow;
-    static const TCHAR* strShowRecordingWindow;
+    extern const TCHAR* strShowPlaybackWindow;
+    extern const TCHAR* strShowRecordingWindow;
 
     //  Windows
-    static const TCHAR* strPlaybackWindowTitle;
-    static const TCHAR* strRecordWindowTitle;
-};
+    extern const TCHAR* strPlaybackWindowTitle;
+    extern const TCHAR* strRecordWindowTitle;
+
+    extern const WCHAR* strPlayButton;
+    extern const WCHAR* strPauseButton;
+    extern const WCHAR* strStopButton;
+
+    extern const WCHAR* strPrevButton;
+    extern const WCHAR* strBackButton;
+    extern const WCHAR* strForwButton;
+    extern const WCHAR* strNextButton;
+} //namespace Constants
