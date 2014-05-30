@@ -41,8 +41,11 @@ template<typename Wnd>
 static void removePluginWindow(HWND parent)
 {
     Wnd& dlg = Wnd::getInstance();
-    ::SendMessage(parent, NPPM_MODELESSDIALOG, MODELESSDIALOGREMOVE, (LPARAM)(HWND)dlg);
-    dlg.DestroyWindow();
+    if (dlg.IsWindow())
+    {
+        ::SendMessage(parent, NPPM_MODELESSDIALOG, MODELESSDIALOGREMOVE, (LPARAM)(HWND)dlg);
+        dlg.DestroyWindow();
+    }
 }
 
 static void onNppShutdown()
