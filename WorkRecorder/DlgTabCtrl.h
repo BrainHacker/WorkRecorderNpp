@@ -91,8 +91,11 @@ public:
         // Initially we hide the view
         CWindow wnd = hWnd;
         wnd.ShowWindow(SW_HIDE);
-        // FIX: Important; see Q149501
-        wnd.ModifyStyleEx(0, WS_EX_CONTROLPARENT);
+
+        // Bugfix: do not set WS_EX_CONTROLPARENT, dockable window will hang up when floating
+        //// FIX: Important; see Q149501
+        //wnd.ModifyStyleEx(0, WS_EX_CONTROLPARENT);
+        
         // Notify owner
         NMHDR nmh = { m_hWnd, GetDlgCtrlID(), TCN_INSERTITEM };
         ::SendMessage(GetParent(), WM_NOTIFY, nmh.idFrom, (LPARAM)&nmh);
@@ -205,8 +208,10 @@ public:
 
     void _Init()
     {
-        // FIX: Important; see Q149501
-        ModifyStyleEx(0, WS_EX_CONTROLPARENT);
+        // Bugfix: do not set WS_EX_CONTROLPARENT, dockable window will hang up when floating
+        //// FIX: Important; see Q149501
+        //ModifyStyleEx(0, WS_EX_CONTROLPARENT);
+        
         // This is a little WTL subclass helper notification
         NMHDR nmh = { m_hWnd, GetDlgCtrlID(), TCN_INITIALIZE };
         ::SendMessage(GetParent(), WM_NOTIFY, nmh.idFrom, (LPARAM)&nmh);
@@ -369,8 +374,10 @@ public:
         // Create dialog container
         m_hWndClient = m_ctrlViews.Create(m_hWnd, rcDefault);
         ATLASSERT(::IsWindow(m_hWndClient));
-        // FIX: Important; see Q149501
-        ModifyStyleEx(0, WS_EX_CONTROLPARENT);
+
+        // Bugfix: do not set WS_EX_CONTROLPARENT, dockable window will hang up when floating
+        //// FIX: Important; see Q149501
+        //ModifyStyleEx(0, WS_EX_CONTROLPARENT);
     }
 };
 
