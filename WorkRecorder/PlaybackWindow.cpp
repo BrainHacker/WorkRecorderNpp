@@ -133,7 +133,9 @@ LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& 
     {
         CEdit edit = GetDlgItem(IDC_PLAY_RECORDFILEEDIT);
         edit.SetWindowText(dlg.m_szFileName);
-        // TODO: scroll to the end
+
+        int length = edit.GetWindowTextLength();
+        edit.SetSel(length, length);
     }
 
     return S_OK;
