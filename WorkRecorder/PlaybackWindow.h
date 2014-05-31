@@ -15,6 +15,7 @@ public:
         DLGRESIZE_CONTROL(IDC_PLAY_RECORDFILEEDIT, DLSZ_SIZE_X)
         DLGRESIZE_CONTROL(IDC_PLAY_BROWSEBUTTON, DLSZ_MOVE_X)
         DLGRESIZE_CONTROL(IDC_PLAY_CONTROLSSTATIC, DLSZ_SIZE_X)
+        DLGRESIZE_CONTROL(IDC_PLAY_ERRORSTATIC, DLSZ_SIZE_X)
     END_DLGRESIZE_MAP()
 
     BEGIN_MSG_MAP(PlaybackWindow)
@@ -51,7 +52,9 @@ private:
 
     /// Enable all media buttons
     void enableMediaButtons(bool enable = true);
+
     void enableControl(uint id, bool enable = true);
+    void showControl(uint id, bool show = true);
 
     /// Playback state controlling
     void onReadyToPlay();

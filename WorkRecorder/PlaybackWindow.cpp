@@ -153,7 +153,7 @@ LRESULT PlaybackWindow::OnRecordFileNameChanged(WORD code, WORD id, HWND hwnd, B
     {
         errorDesc = Constants::strRecordFileNameEmpty;
     }
-    if (!PathUtils::isFileExist(fileName))
+    else if (!PathUtils::isFileExist(fileName))
     {
         errorDesc = Constants::strRecordFileNotExist;
         showErrorIcon = true;
@@ -211,22 +211,32 @@ void PlaybackWindow::enableControl(uint id, bool enable /*= true*/)
     wnd.EnableWindow(enable);
 }
 
+void PlaybackWindow::showControl(uint id, bool show /*= true*/)
+{
+    CWindow wnd = GetDlgItem(id);
+    wnd.ShowWindow(show ? SW_SHOW : SW_HIDE);
+}
+
 void PlaybackWindow::setError(const TCHAR* errorDesc /*= 0*/,
     bool showErrorIcon /*= true*/)
 {
-    if (errorDesc)
+    bool error = (errorDesc != 0);
+
+    enableMediaButtons(!error);
+    if (error)
     {
-        enableMediaButtons(false);
+        showControl(IDC_PLAY_ERRORSTATIC);
+        SetDlgItemText(IDC_PLAY_ERRORSTATIC, errorDesc);
     }
     else
     {
-        enableMediaButtons();
+        showControl(IDC_PLAY_ERRORSTATIC, false);
     }
 }
 
 void PlaybackWindow::onReadyToPlay()
 {
-    enableMediaButtons();
+    setError();
     
     enableControl(IDC_PLAY_PAUSEBUTTON, false);
     enableControl(IDC_PLAY_STOPBUTTON, false);
