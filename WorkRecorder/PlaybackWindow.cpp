@@ -122,11 +122,10 @@ LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& 
     const TCHAR* strDefaultExtension = TEXT("");
     const TCHAR* strFileName = TEXT("");
     DWORD flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
-    // TODO: make proper filter
-    const TCHAR* strFilter = TEXT("Work Recorder files (*.rec)\0All files (*)\0\0");
+    const TCHAR* strFilter = Constants::strFileDialogFilter;
 
     CFileDialog dlg(TRUE, strDefaultExtension, strFileName, flags, strFilter, *this);
-    // TODO: fill initial folder
+    // TODO: fill initial folder and file name based on the previous choice
 
     INT_PTR answer = dlg.DoModal();
     if (answer == IDOK)

@@ -23,7 +23,9 @@ namespace Constants
 
     //  Windows
     const TCHAR* strPlaybackWindowTitle = TEXT("Work Playback");
-    const TCHAR* strRecordWindowTitle   = TEXT("Work Recording");;
+    const TCHAR* strRecordWindowTitle   = TEXT("Work Recording");
+
+    const TCHAR* strFileDialogFilter    = TEXT("Work Recorder files (*.rec)\0*.rec\0All files (*.*)\0*.*\0");
 
     const WCHAR* strPlayButton  = L"\u25B6";
     const WCHAR* strPauseButton = L"\u2759\u2759";

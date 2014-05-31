@@ -25,6 +25,8 @@ namespace Constants
     extern const TCHAR* strPlaybackWindowTitle;
     extern const TCHAR* strRecordWindowTitle;
 
+    extern const TCHAR* strFileDialogFilter;
+
     extern const WCHAR* strPlayButton;
     extern const WCHAR* strPauseButton;
     extern const WCHAR* strStopButton;
