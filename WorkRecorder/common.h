@@ -26,6 +26,7 @@ using namespace std;
 #include "Exceptions.h"
 #include "Singleton.h"
 #include "SingletonImpl.h"
+#include "PathUtils.h"
 
 // Notepad++ files
 #include "menuCmdID.h"

@@ -38,7 +38,15 @@ LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& han
     initButtons();
     initSpeedControl();
 
+    setError(Constants::strRecordFileNameEmpty, false);
+
     DlgResize_Init(false, false, 0);
+    return S_OK;
+}
+
+LRESULT PlaybackWindow::OnClick(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
+{
+    SetFocus();
     return S_OK;
 }
 
@@ -129,4 +137,97 @@ LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& 
     }
 
     return S_OK;
+}
+
+LRESULT PlaybackWindow::OnRecordFileNameChanged(WORD code, WORD id, HWND hwnd, BOOL& handled)
+{
+    CEdit edit = GetDlgItem(IDC_PLAY_RECORDFILEEDIT);
+
+    CString fileName;
+    edit.GetWindowText(fileName);
+
+    const TCHAR* errorDesc = 0;
+    bool showErrorIcon = false;
+
+    if (fileName.IsEmpty())
+    {
+        errorDesc = Constants::strRecordFileNameEmpty;
+    }
+    if (!PathUtils::isFileExist(fileName))
+    {
+        errorDesc = Constants::strRecordFileNotExist;
+        showErrorIcon = true;
+    }
+    else if (!PathUtils::isFileReadable(fileName))
+    {
+        errorDesc = Constants::strRecordFileNotReadable;
+        showErrorIcon = true;
+    }
+
+    if (errorDesc)
+    {
+        setError(errorDesc, showErrorIcon);
+    }
+    else
+    {
+        // ready to play
+        onReadyToPlay();
+    }
+
+    return S_OK;
+}
+
+void PlaybackWindow::enableMediaButtons(bool enable /*= true*/)
+{
+    typedef struct
+    {
+        uint id;
+        bool enabled;
+    } ControlInfo;
+
+    ControlInfo infos[] =
+    {
+        { IDC_PLAY_PLAYBUTTON,    enable },
+        { IDC_PLAY_PAUSEBUTTON,   enable },
+        { IDC_PLAY_STOPBUTTON,    enable },
+        { IDC_PLAY_PREVBUTTON,    enable },
+        { IDC_PLAY_BACKBUTTON,    enable },
+        { IDC_PLAY_FORWBUTTON,    enable },
+        { IDC_PLAY_NEXTBUTTON,    enable },
+        { IDC_PLAY_SPEEDCOMBOBOX, enable },
+    };
+
+    uint count = sizeof(infos) / sizeof(ControlInfo);
+    while (count--)
+    {
+        const ControlInfo& info = infos[count];
+        enableControl(info.id, info.enabled);
+    }
+}
+
+void PlaybackWindow::enableControl(uint id, bool enable /*= true*/)
+{
+    CWindow wnd = GetDlgItem(id);
+    wnd.EnableWindow(enable);
+}
+
+void PlaybackWindow::setError(const TCHAR* errorDesc /*= 0*/,
+    bool showErrorIcon /*= true*/)
+{
+    if (errorDesc)
+    {
+        enableMediaButtons(false);
+    }
+    else
+    {
+        enableMediaButtons();
+    }
+}
+
+void PlaybackWindow::onReadyToPlay()
+{
+    enableMediaButtons();
+    
+    enableControl(IDC_PLAY_PAUSEBUTTON, false);
+    enableControl(IDC_PLAY_STOPBUTTON, false);
 }

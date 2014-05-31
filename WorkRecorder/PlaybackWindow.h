@@ -19,8 +19,11 @@ public:
 
     BEGIN_MSG_MAP(PlaybackWindow)
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        MESSAGE_HANDLER(WM_LBUTTONDOWN, OnClick)
         COMMAND_ID_HANDLER(IDC_PLAY_BROWSEBUTTON, OnBrowseRecordFile)
+        COMMAND_HANDLER(IDC_PLAY_RECORDFILEEDIT, EN_CHANGE, OnRecordFileNameChanged)
         CHAIN_MSG_MAP(CDialogResize<PlaybackWindow>)
+        //REFLECT_NOTIFICATIONS()
     END_MSG_MAP()
 
     void show(bool showFlag = true);
@@ -34,15 +37,28 @@ protected:
 private:
     /// Message handlers
     LRESULT OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
+    LRESULT OnClick(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
 
     /// Command handlers
     LRESULT OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled);
+    LRESULT OnRecordFileNameChanged(WORD code, WORD id, HWND hwnd, BOOL& handled);
 
     /// Init controls
     void initButtons();
     void setButtonText(uint id, const WCHAR* text, bool changeFont = true, uint fontSize = 9);
 
     void initSpeedControl();
+
+    /// Enable all media buttons
+    void enableMediaButtons(bool enable = true);
+    void enableControl(uint id, bool enable = true);
+
+    /// Playback state controlling
+    void onReadyToPlay();
+
+    /// Error handling
+    /// @param errorDesc - error description, if 0 error message will be hided
+    void setError(const TCHAR* errorDesc = 0, bool showErrorIcon = true);
 
     typedef struct 
     {

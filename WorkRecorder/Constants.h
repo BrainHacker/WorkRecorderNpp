@@ -12,6 +12,10 @@ namespace Constants
     extern const char* strNullPtr;
     extern const char* strIndexOutOfRange;
 
+    extern const TCHAR* strRecordFileNameEmpty;
+    extern const TCHAR* strRecordFileNotExist;
+    extern const TCHAR* strRecordFileNotReadable;
+
     // GUI
     //  Menu
     extern const TCHAR* strShowPlaybackWindow;
