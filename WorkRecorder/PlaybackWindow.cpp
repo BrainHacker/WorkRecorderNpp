@@ -108,3 +108,25 @@ void PlaybackWindow::initSpeedControl()
 
     box.SetCurSel(currentSpeedIndex);
 }
+
+LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled)
+{
+    const TCHAR* strDefaultExtension = TEXT("");
+    const TCHAR* strFileName = TEXT("");
+    DWORD flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
+    // TODO: make proper filter
+    const TCHAR* strFilter = TEXT("Work Recorder files (*.rec)\0All files (*)\0\0");
+
+    CFileDialog dlg(TRUE, strDefaultExtension, strFileName, flags, strFilter, *this);
+    // TODO: fill initial folder
+
+    INT_PTR answer = dlg.DoModal();
+    if (answer == IDOK)
+    {
+        CEdit edit = GetDlgItem(IDC_PLAY_RECORDFILEEDIT);
+        edit.SetWindowText(dlg.m_szFileName);
+        // TODO: scroll to the end
+    }
+
+    return S_OK;
+}

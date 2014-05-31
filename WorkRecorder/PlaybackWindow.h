@@ -19,6 +19,7 @@ public:
 
     BEGIN_MSG_MAP(PlaybackWindow)
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        COMMAND_ID_HANDLER(IDC_PLAY_BROWSEBUTTON, OnBrowseRecordFile)
         CHAIN_MSG_MAP(CDialogResize<PlaybackWindow>)
     END_MSG_MAP()
 
@@ -33,6 +34,9 @@ protected:
 private:
     /// Message handlers
     LRESULT OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
+
+    /// Command handlers
+    LRESULT OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled);
 
     /// Init controls
     void initButtons();

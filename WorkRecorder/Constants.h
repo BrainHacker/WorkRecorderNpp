@@ -29,4 +29,6 @@ namespace Constants
     extern const WCHAR* strBackButton;
     extern const WCHAR* strForwButton;
     extern const WCHAR* strNextButton;
+
+    extern const TCHAR* strRecordFileExtension;
 } //namespace Constants

@@ -29,4 +29,6 @@ namespace Constants
     const WCHAR* strBackButton = L"\u23EA";
     const WCHAR* strForwButton = L"\u23E9";
     const WCHAR* strNextButton = L"\u23ED";
+
+    const TCHAR* strRecordFileExtension = TEXT(".rec");
 } //namespace Constants

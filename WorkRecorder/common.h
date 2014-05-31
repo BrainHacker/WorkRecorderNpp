@@ -11,6 +11,7 @@ using namespace std;
 #include <atlapp.h>
 #include <atlframe.h>
 #include <atlctrls.h>
+#include <atldlgs.h>
 
 #include <atlstr.h>
 #define _WTL_NO_CSTRING
