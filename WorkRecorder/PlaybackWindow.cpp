@@ -55,7 +55,12 @@ LRESULT PlaybackWindow::OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handle
 
 LRESULT PlaybackWindow::OnClick(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 {
-    SetFocus();
+    HWND focusedWindow = GetFocus();
+    if (focusedWindow != *this && !IsChild(focusedWindow))
+    {
+        SetFocus();
+    }
+
     return S_OK;
 }
 
@@ -89,6 +94,7 @@ void PlaybackWindow::initButtons()
     }
 
     setButtonImages();
+    enableControl(IDC_PLAY_WARNINGBUTTON, false);
 }
 
 void PlaybackWindow::setButtonText(uint id, const WCHAR* text,
