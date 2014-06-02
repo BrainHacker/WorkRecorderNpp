@@ -176,6 +176,7 @@ LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& 
 
         int length = edit.GetWindowTextLength();
         edit.SetSel(length, length);
+        edit.SetFocus();
     }
 
     return S_OK;
