@@ -157,6 +157,12 @@
   <ItemGroup>
     <ResourceCompile Include="WorkRecorder.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="icons\choose_file_button.png" />
+    <Image Include="icons\play_icon.ico" />
+    <Image Include="icons\record_icon.ico" />
+    <Image Include="icons\warning.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

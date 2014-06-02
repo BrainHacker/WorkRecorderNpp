@@ -20,11 +20,11 @@ public:
 
     BEGIN_MSG_MAP(PlaybackWindow)
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
         MESSAGE_HANDLER(WM_LBUTTONDOWN, OnClick)
         COMMAND_ID_HANDLER(IDC_PLAY_BROWSEBUTTON, OnBrowseRecordFile)
         COMMAND_HANDLER(IDC_PLAY_RECORDFILEEDIT, EN_CHANGE, OnRecordFileNameChanged)
         CHAIN_MSG_MAP(CDialogResize<PlaybackWindow>)
-        //REFLECT_NOTIFICATIONS()
     END_MSG_MAP()
 
     void show(bool showFlag = true);
@@ -38,6 +38,7 @@ protected:
 private:
     /// Message handlers
     LRESULT OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
+    LRESULT OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
     LRESULT OnClick(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
 
     /// Command handlers
@@ -47,6 +48,7 @@ private:
     /// Init controls
     void initButtons();
     void setButtonText(uint id, const WCHAR* text, bool changeFont = true, uint fontSize = 9);
+    void setButtonImages();
 
     void initSpeedControl();
 
@@ -72,6 +74,9 @@ private:
     static const uint numSpeedCount = 19;
     static SpeedInfo speedArray[numSpeedCount];
 
-    CImageList imageList;
     CButtonWithImage browseButton = CButtonWithImage(BMPBTN_AUTOSIZE | BMPBTN_HOVER);
+    CImageList browseImageList;
+
+    CButtonWithImage warningButton;
+    CImageList warningImageList;
 };

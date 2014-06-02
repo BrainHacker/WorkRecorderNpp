@@ -75,18 +75,20 @@ FuncItem* PluginCore::getFunctionsArray(uint* count)
 //static
 void PluginCore::onShowPlaybackWindow()
 {
-    showWindow<PlaybackWindow>(cShowPlaybackWindow, Constants::strPlaybackWindowTitle);
+    HICON icon = LoadIcon(getInstance().getModuleHandle(), (LPCTSTR)IDI_PLAYBACKWINDOWICON);
+    showWindow<PlaybackWindow>(cShowPlaybackWindow, Constants::strPlaybackWindowTitle, icon);
 }
 
 //static
 void PluginCore::onShowRecordingWindow()
 {
-    showWindow<RecordingWindow>(cShowRecordingWindow, Constants::strRecordWindowTitle);
+    HICON icon = LoadIcon(getInstance().getModuleHandle(), (LPCTSTR)IDI_RECORDWINDOWICON);
+    showWindow<RecordingWindow>(cShowRecordingWindow, Constants::strRecordWindowTitle, icon);
 }
 
 //static
 template<typename Wnd>
-void PluginCore::showWindow(int id, const TCHAR* title)
+void PluginCore::showWindow(int id, const TCHAR* title, HICON icon)
 {
     PluginCore& plugin = PluginCore::getInstance();
     Wnd& dlg = Wnd::getInstance();
@@ -105,8 +107,9 @@ void PluginCore::showWindow(int id, const TCHAR* title)
         data.hClient       = (HWND)dlg;
         data.pszName       = (TCHAR*)title;
         data.dlgID         = id;
-        data.uMask         = DWS_DF_CONT_RIGHT;
+        data.uMask         = DWS_DF_CONT_RIGHT | DWS_ICONTAB;
         data.pszModuleName = plugin.getModuleName();
+        data.hIconTab      = icon;
         
         ::SendMessage(parent, NPPM_DMMREGASDCKDLG, 0, (LPARAM)&data);
     }

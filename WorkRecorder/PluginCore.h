@@ -27,7 +27,7 @@ public:
     static void onShowRecordingWindow();
 
     template<typename Wnd>
-    static void showWindow(int id, const TCHAR* title);
+    static void showWindow(int id, const TCHAR* title, HICON icon);
 
 protected:
     PluginCore();

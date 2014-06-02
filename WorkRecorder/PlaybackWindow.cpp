@@ -39,27 +39,17 @@ LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& han
     initSpeedControl();
 
     setError(Constants::strRecordFileNameEmpty, false);
-
-    CGdiPlusBitmapResource imageSource;
-    imageSource.Load(IDR_CHOOSEFILEBITMAP, RT_RCDATA, PluginCore::getInstance().getModuleHandle());
-
-    RECT rc;
-    CWindow(GetDlgItem(IDC_PLAY_RECORDFILEEDIT)).GetWindowRect(&rc);
-    uint size = rc.bottom - rc.top;
-
-    imageSource.ResizeY(size);
-    CBitmap imageBitmap = imageSource.GetHBITMAP(RGB(0, 0, 0));
-
-    imageList.Create(size, size, ILC_COLOR32, 0, 4);
-    imageList.Add(imageBitmap);
-
-    browseButton.SetImageList(imageList);
-    browseButton.SetImages(0, 1, 2, 3);
-    browseButton.SubclassWindow(GetDlgItem(IDC_PLAY_BROWSEBUTTON));
-    browseButton.SetBitmapButtonExtendedStyle(browseButton.GetBitmapButtonExtendedStyle() | BMPBTN_HOVER);
-    browseButton.SizeToImage();
     
     DlgResize_Init(false, false, 0);
+    return S_OK;
+}
+
+LRESULT PlaybackWindow::OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
+{
+    // destroy image lists
+    browseImageList.Destroy();
+    warningImageList.Destroy();
+
     return S_OK;
 }
 
@@ -97,6 +87,8 @@ void PlaybackWindow::initButtons()
         const ButtonInfo& info = infos[count];
         setButtonText(info.id, info.text, true, info.fontSize);
     }
+
+    setButtonImages();
 }
 
 void PlaybackWindow::setButtonText(uint id, const WCHAR* text,
@@ -115,6 +107,36 @@ void PlaybackWindow::setButtonText(uint id, const WCHAR* text,
         font = logFont.CreateFontIndirect();
         button.SetFont(font);
     }
+}
+
+void PlaybackWindow::setButtonImages()
+{
+    // set image for browse button
+    CGdiPlusBitmapResource imageSource;
+    imageSource.Load(IDR_CHOOSEFILEBITMAP, RT_RCDATA, PluginCore::getInstance().getModuleHandle());
+
+    RECT rc;
+    CWindow(GetDlgItem(IDC_PLAY_RECORDFILEEDIT)).GetWindowRect(&rc);
+    uint size = rc.bottom - rc.top;
+
+    imageSource.ResizeY(size);
+    CBitmap imageBitmap = imageSource.GetHBITMAP(RGB(0, 0, 0));
+
+    browseImageList.Create(size, size, ILC_COLOR32, 0, 4);
+    browseImageList.Add(imageBitmap);
+
+    browseButton.SetImageList(browseImageList);
+    browseButton.SetImages(0, 1, 2, 3);
+    browseButton.SubclassWindow(GetDlgItem(IDC_PLAY_BROWSEBUTTON));
+
+    // set image for warning button
+    size -= 2;
+    warningImageList.Create(size, size, ILC_COLOR32, 1, 0);
+    warningImageList.AddIcon(LoadIcon(PluginCore::getInstance().getModuleHandle(), (LPCTSTR)IDI_WARNINGICON));
+
+    warningButton.SetImageList(warningImageList);
+    warningButton.SetImages(0);
+    warningButton.SubclassWindow(GetDlgItem(IDC_PLAY_WARNINGBUTTON));
 }
 
 void PlaybackWindow::initSpeedControl()
@@ -241,16 +263,18 @@ void PlaybackWindow::setError(const TCHAR* errorDesc /*= 0*/,
     bool showErrorIcon /*= true*/)
 {
     bool error = (errorDesc != 0);
-
     enableMediaButtons(!error);
+
     if (error)
     {
         showControl(IDC_PLAY_ERRORSTATIC);
         SetDlgItemText(IDC_PLAY_ERRORSTATIC, errorDesc);
+        showControl(IDC_PLAY_WARNINGBUTTON);
     }
     else
     {
         showControl(IDC_PLAY_ERRORSTATIC, false);
+        showControl(IDC_PLAY_WARNINGBUTTON, false);
     }
 }
 
