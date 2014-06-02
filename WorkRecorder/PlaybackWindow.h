@@ -71,4 +71,7 @@ private:
 
     static const uint numSpeedCount = 19;
     static SpeedInfo speedArray[numSpeedCount];
+
+    CImageList imageList;
+    CButtonWithImage browseButton = CButtonWithImage(BMPBTN_AUTOSIZE | BMPBTN_HOVER);
 };

@@ -11,6 +11,7 @@ using namespace std;
 #include <atlapp.h>
 #include <atlframe.h>
 #include <atlctrls.h>
+#include <atlctrlx.h>
 #include <atldlgs.h>
 
 #include <atlstr.h>
@@ -41,6 +42,7 @@ using namespace std;
 #include "resource.h"
 #include "GdiPlusHelper.h"
 #include "CGdiPlusBitmap.h"
+#include "CButtonWithImage.h"
 #include "GuiUtils.h"
 #include "PlaybackWindow.h"
 #include "RecordingWindow.h"

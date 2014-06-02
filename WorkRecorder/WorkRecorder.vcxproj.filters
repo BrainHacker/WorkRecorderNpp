@@ -69,6 +69,9 @@
     <ClCompile Include="GdiPlusHelper.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="CButtonWithImage.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -123,6 +126,12 @@
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="GdiPlusHelper.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CGdiPlusBitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CButtonWithImage.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>

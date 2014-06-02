@@ -22,14 +22,40 @@ public:
 		return m_pBitmap->GetLastStatus() == Gdiplus::Ok;
 	}
 
-    CBitmap GetCBitmap(const Gdiplus::Color& backgroundColor) const
+    HBITMAP GetHBITMAP(const Gdiplus::Color& backgroundColor) const
     {
         HBITMAP hbitmap;
         m_pBitmap->GetHBITMAP(backgroundColor, &hbitmap);
 
-        CBitmap bitmap;
-        bitmap.Attach(hbitmap);
-        return bitmap;
+        return hbitmap;
+    }
+
+    void ResizeX(uint width)
+    {
+        uint oldWidth = m_pBitmap->GetWidth();
+        float k = (float)width / oldWidth;
+
+        uint height = (uint)(m_pBitmap->GetHeight() * k);
+        Resize(width, height);
+    }
+
+    void ResizeY(uint height)
+    {
+        uint oldHeight = m_pBitmap->GetHeight();
+        float k = (float)height / oldHeight;
+
+        uint width = (uint)(m_pBitmap->GetWidth() * k);
+        Resize(width, height);
+    }
+
+    void Resize(uint width, uint height)
+    {
+        Gdiplus::Bitmap* newBitmap = new Gdiplus::Bitmap(width, height, m_pBitmap->GetPixelFormat());
+        Gdiplus::Graphics graphics(newBitmap);
+        graphics.DrawImage(m_pBitmap, 0, 0, width, height);
+
+        delete m_pBitmap;
+        m_pBitmap = newBitmap;
     }
 
 	operator Gdiplus::Bitmap*() const			{ return m_pBitmap; }

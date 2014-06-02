@@ -40,6 +40,25 @@ LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& han
 
     setError(Constants::strRecordFileNameEmpty, false);
 
+    CGdiPlusBitmapResource imageSource;
+    imageSource.Load(IDR_CHOOSEFILEBITMAP, RT_RCDATA, PluginCore::getInstance().getModuleHandle());
+
+    RECT rc;
+    CWindow(GetDlgItem(IDC_PLAY_RECORDFILEEDIT)).GetWindowRect(&rc);
+    uint size = rc.bottom - rc.top;
+
+    imageSource.ResizeY(size);
+    CBitmap imageBitmap = imageSource.GetHBITMAP(RGB(0, 0, 0));
+
+    imageList.Create(size, size, ILC_COLOR32, 0, 4);
+    imageList.Add(imageBitmap);
+
+    browseButton.SetImageList(imageList);
+    browseButton.SetImages(0, 1, 2);
+    browseButton.SubclassWindow(GetDlgItem(IDC_PLAY_BROWSEBUTTON));
+    browseButton.SetBitmapButtonExtendedStyle(browseButton.GetBitmapButtonExtendedStyle() | BMPBTN_HOVER);
+    //browseButton.SizeToImage();
+    
     DlgResize_Init(false, false, 0);
     return S_OK;
 }
