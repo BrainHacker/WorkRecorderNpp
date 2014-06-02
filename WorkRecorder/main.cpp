@@ -60,6 +60,22 @@ static void onNppShutdown()
     GdiPlusHelper::getInstance().uninit();
 }
 
+static void addToolbarIcon(uint bitmapResourceId, uint cmdId)
+{
+    PluginCore& plugin = PluginCore::getInstance();
+    HINSTANCE hinstance = plugin.getModuleHandle();
+
+    uint count = 0;
+    FuncItem* functions = plugin.getFunctionsArray(&count);
+    assert(cmdId < count, Constants::strIndexOutOfRange);
+
+    toolbarIcons info = {};
+    info.hToolbarBmp = CreateMappedBitmap(hinstance, (INT_PTR)bitmapResourceId, 0, 0, 0);
+
+    ::SendMessage(plugin.getNppData()._nppHandle, NPPM_ADDTOOLBARICON,
+        (WPARAM)functions[cmdId]._cmdID, (LPARAM)&info);
+}
+
 // Implementation of plugin interface
 extern "C"
 {
@@ -86,6 +102,13 @@ extern "C"
     {
         switch (notifyCode->nmhdr.code)
         {
+        case NPPN_TBMODIFICATION:
+        {
+            addToolbarIcon(IDB_PLAYBACKTOOLBARICON, PluginCore::cShowPlaybackWindow);
+            addToolbarIcon(IDB_RECORDTOOLBARICON,   PluginCore::cShowRecordingWindow);
+        }
+        break;
+
         case NPPN_SHUTDOWN:
         {
             onNppShutdown();

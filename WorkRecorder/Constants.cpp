@@ -18,8 +18,8 @@ namespace Constants
 
     // GUI
     //  Menu
-    const TCHAR* strShowPlaybackWindow  = TEXT("Show Playback Window");
-    const TCHAR* strShowRecordingWindow = TEXT("Show Recording Window");
+    const TCHAR* strShowPlaybackWindow  = TEXT("Show Work Playback Window");
+    const TCHAR* strShowRecordingWindow = TEXT("Show Work Recording Window");
 
     //  Windows
     const TCHAR* strPlaybackWindowTitle = TEXT("Work Playback");
