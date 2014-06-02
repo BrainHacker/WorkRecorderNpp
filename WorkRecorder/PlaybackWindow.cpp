@@ -54,10 +54,10 @@ LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& han
     imageList.Add(imageBitmap);
 
     browseButton.SetImageList(imageList);
-    browseButton.SetImages(0, 1, 2);
+    browseButton.SetImages(0, 1, 2, 3);
     browseButton.SubclassWindow(GetDlgItem(IDC_PLAY_BROWSEBUTTON));
     browseButton.SetBitmapButtonExtendedStyle(browseButton.GetBitmapButtonExtendedStyle() | BMPBTN_HOVER);
-    //browseButton.SizeToImage();
+    browseButton.SizeToImage();
     
     DlgResize_Init(false, false, 0);
     return S_OK;
