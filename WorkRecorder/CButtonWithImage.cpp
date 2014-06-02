@@ -55,3 +55,32 @@ void CButtonWithImage::DoPaint(CDCHandle dc)
         }
     }
 }
+
+LRESULT CButtonWithImage::OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+    if (wParam == VK_SPACE && m_fPressed == 0)
+    {
+        m_fPressed = 1;
+        Invalidate();
+        UpdateWindow();
+    }
+
+    bHandled = TRUE;
+    return DefWindowProc(uMsg, wParam, lParam);
+}
+
+LRESULT CButtonWithImage::OnKeyUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+    if (wParam == VK_SPACE && m_fPressed == 1)
+    {
+        m_fPressed = 0;
+        if ((m_dwExtendedStyle & BMPBTN_AUTOCHECK) != 0)
+            SetCheck(!GetCheck(), false);
+        Invalidate();
+        UpdateWindow();
+    }
+
+    bHandled = TRUE;
+    return DefWindowProc(uMsg, wParam, lParam);
+}
+
