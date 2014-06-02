@@ -19,6 +19,7 @@ using namespace std;
 // Windows
 #include <Strsafe.h>
 #include <Shlwapi.h>
+#include <gdiplus.h>
 
 // Framework files
 #include "Types.h"
@@ -38,6 +39,7 @@ using namespace std;
 
 // GUI
 #include "resource.h"
+#include "GdiPlusHelper.h"
 #include "GuiUtils.h"
 #include "PlaybackWindow.h"
 #include "RecordingWindow.h"

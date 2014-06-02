@@ -5,6 +5,7 @@
 void pluginInit(HANDLE moduleHandle)
 {
     PluginCore::getInstance().setModuleHandle((HINSTANCE)moduleHandle);
+    GdiPlusHelper::getInstance().init();
 }
 
 void pluginCleanUp()
@@ -12,6 +13,8 @@ void pluginCleanUp()
     // destroy singletons
     PlaybackWindow::destroy();
     RecordingWindow::destroy();
+    GdiPlusHelper::destroy();
+
     PluginCore::destroy();
 }
 
@@ -53,6 +56,8 @@ static void onNppShutdown()
     HWND parent = PluginCore::getInstance().getNppData()._nppHandle;
     removePluginWindow<PlaybackWindow>(parent);
     removePluginWindow<RecordingWindow>(parent);
+
+    GdiPlusHelper::getInstance().uninit();
 }
 
 // Implementation of plugin interface
