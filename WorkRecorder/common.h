@@ -40,6 +40,7 @@ using namespace std;
 // GUI
 #include "resource.h"
 #include "GdiPlusHelper.h"
+#include "CGdiPlusBitmap.h"
 #include "GuiUtils.h"
 #include "PlaybackWindow.h"
 #include "RecordingWindow.h"
