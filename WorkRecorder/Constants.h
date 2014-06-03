@@ -4,37 +4,7 @@
 
 namespace Constants
 {
-    // Plugin description
-    extern const TCHAR* strPluginDisplayName;
-    extern const TCHAR* strPluginShortName;
-
     // Error descriptions
     extern const char* strNullPtr;
     extern const char* strIndexOutOfRange;
-
-    extern const TCHAR* strRecordFileNameEmpty;
-    extern const TCHAR* strRecordFileNotExist;
-    extern const TCHAR* strRecordFileNotReadable;
-
-    // GUI
-    //  Menu
-    extern const TCHAR* strShowPlaybackWindow;
-    extern const TCHAR* strShowRecordingWindow;
-
-    //  Windows
-    extern const TCHAR* strPlaybackWindowTitle;
-    extern const TCHAR* strRecordWindowTitle;
-
-    extern const TCHAR* strFileDialogFilter;
-
-    extern const WCHAR* strPlayButton;
-    extern const WCHAR* strPauseButton;
-    extern const WCHAR* strStopButton;
-
-    extern const WCHAR* strPrevButton;
-    extern const WCHAR* strBackButton;
-    extern const WCHAR* strForwButton;
-    extern const WCHAR* strNextButton;
-
-    extern const TCHAR* strRecordFileExtension;
 } //namespace Constants

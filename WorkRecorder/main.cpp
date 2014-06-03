@@ -15,6 +15,7 @@ void pluginCleanUp()
     RecordingWindow::destroy();
     GdiPlusHelper::destroy();
 
+    CLocalization::destroy();
     PluginCore::destroy();
 }
 
@@ -86,7 +87,8 @@ extern "C"
 
     __declspec(dllexport) const TCHAR * getName()
     {
-        return Constants::strPluginDisplayName;
+        static CString pluginName = translate(IDS_PLUGIN_DISPLAYNAME);
+        return pluginName;
     }
 
     __declspec(dllexport) FuncItem * getFuncsArray(int *nbF)

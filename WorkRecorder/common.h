@@ -9,6 +9,7 @@ using namespace std;
 // WTL
 #include <atlbase.h>
 #include <atlapp.h>
+#include <atlcoll.h>
 #include <atlframe.h>
 #include <atlctrls.h>
 #include <atlctrlx.h>
@@ -43,6 +44,7 @@ using namespace std;
 #include "GdiPlusHelper.h"
 #include "CGdiPlusBitmap.h"
 #include "CButtonWithImage.h"
+#include "Localization.h"
 #include "GuiUtils.h"
 #include "PlaybackWindow.h"
 #include "RecordingWindow.h"

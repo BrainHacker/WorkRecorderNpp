@@ -72,6 +72,9 @@
     <ClCompile Include="CButtonWithImage.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Localization.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -134,6 +137,9 @@
     <ClInclude Include="CButtonWithImage.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Localization.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WorkRecorder.rc">
@@ -141,6 +147,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icons\choose_file_button.png" />
+    <None Include="translation\English.po">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

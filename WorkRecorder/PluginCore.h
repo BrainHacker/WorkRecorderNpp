@@ -47,7 +47,7 @@ private:
     /// @param pFunc - function associated with command
     /// @param sk - shortcut to trigger this command
     /// @param checkOnInit - make this menu item be checked visually
-    void initCommand(FuncItem* item, const TCHAR* name, PFUNCPLUGINCMD pFunc,
+    void initCommand(FuncItem* item, const CString& name, PFUNCPLUGINCMD pFunc,
         ShortcutKey* sk = 0, bool checkOnInit = false);
 
     bool initialized = false;

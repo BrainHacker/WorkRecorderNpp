@@ -23,21 +23,26 @@ const TCHAR* PluginCore::getModuleName() const
 
 void PluginCore::init()
 {
-    // init module name
+    // init translation
     ::GetModuleFileName(moduleHandle, moduleName, MAX_PATH);
-    TCHAR* fileName = PathFindFileName(moduleName);
+    CLocalization& localization = CLocalization::getInstance();
 
+    localization.Load(moduleName);
+    localization.Select(LANG_ENGLISH);
+
+    // init module name
+    TCHAR* fileName = PathFindFileName(moduleName);
     if (fileName != moduleName)
     {
         StringCchCopy(moduleName, MAX_PATH, fileName);
     }
 
     // init commands
-    initCommand(&functionsArray[cShowPlaybackWindow],  Constants::strShowPlaybackWindow,  onShowPlaybackWindow );
-    initCommand(&functionsArray[cShowRecordingWindow], Constants::strShowRecordingWindow, onShowRecordingWindow);
+    initCommand(&functionsArray[cShowPlaybackWindow],  translate(IDS_MENU_SHOWPLAYBACKWND),  onShowPlaybackWindow );
+    initCommand(&functionsArray[cShowRecordingWindow], translate(IDS_MENU_SHOWRECORDINGWND), onShowRecordingWindow);
 }
 
-void PluginCore::initCommand(FuncItem* item, const TCHAR* name, PFUNCPLUGINCMD pFunc,
+void PluginCore::initCommand(FuncItem* item, const CString& name, PFUNCPLUGINCMD pFunc,
     ShortcutKey* sk /*= 0*/, bool checkOnInit /*=false*/)
 {
     assert(item, Constants::strNullPtr);
@@ -76,14 +81,16 @@ FuncItem* PluginCore::getFunctionsArray(uint* count)
 void PluginCore::onShowPlaybackWindow()
 {
     HICON icon = LoadIcon(getInstance().getModuleHandle(), (LPCTSTR)IDI_PLAYBACKWINDOWICON);
-    showWindow<PlaybackWindow>(cShowPlaybackWindow, Constants::strPlaybackWindowTitle, icon);
+    CString title = translate(IDS_TITLE_PLAYWND);
+    showWindow<PlaybackWindow>(cShowPlaybackWindow, title, icon);
 }
 
 //static
 void PluginCore::onShowRecordingWindow()
 {
     HICON icon = LoadIcon(getInstance().getModuleHandle(), (LPCTSTR)IDI_RECORDWINDOWICON);
-    showWindow<RecordingWindow>(cShowRecordingWindow, Constants::strRecordWindowTitle, icon);
+    CString title = translate(IDS_TITLE_RECORDWND);
+    showWindow<RecordingWindow>(cShowRecordingWindow, title, icon);
 }
 
 //static

@@ -65,7 +65,6 @@ LRESULT CButtonWithImage::OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
         UpdateWindow();
     }
 
-    bHandled = TRUE;
     return DefWindowProc(uMsg, wParam, lParam);
 }
 
@@ -80,7 +79,6 @@ LRESULT CButtonWithImage::OnKeyUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
         UpdateWindow();
     }
 
-    bHandled = TRUE;
     return DefWindowProc(uMsg, wParam, lParam);
 }
 

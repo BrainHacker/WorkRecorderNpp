@@ -47,7 +47,7 @@ private:
 
     /// Init controls
     void initButtons();
-    void setButtonText(uint id, const WCHAR* text, bool changeFont = true, uint fontSize = 9);
+    void changeControlTextSize(uint id, uint fontSize);
     void setButtonImages();
 
     void initSpeedControl();
@@ -63,7 +63,7 @@ private:
 
     /// Error handling
     /// @param errorDesc - error description, if 0 error message will be hided
-    void setError(const TCHAR* errorDesc = 0, bool showErrorIcon = true);
+    void setError(const CString& errorDesc = CString(), bool showErrorIcon = true);
 
     typedef struct 
     {

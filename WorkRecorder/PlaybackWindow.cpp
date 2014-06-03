@@ -33,12 +33,16 @@ void PlaybackWindow::show(bool showFlag /*= true*/)
 
 LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 {
+    CString title;
+    GetWindowText(title);
+
     GuiUtils::setSystemDefaultFont(*this);
+    translateWindow(*this, IDD_PLAYBACKDLG);
 
     initButtons();
     initSpeedControl();
 
-    setError(Constants::strRecordFileNameEmpty, false);
+    setError(translate(IDS_ERR_RECORDFILENAMEEMPTY), false);
     
     DlgResize_Init(false, false, 0);
     return S_OK;
@@ -66,53 +70,42 @@ LRESULT PlaybackWindow::OnClick(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 
 void PlaybackWindow::initButtons()
 {
-    using namespace Constants;
-
     typedef struct 
     {
         uint id;
-        const WCHAR* text;
         uint fontSize;
     } ButtonInfo;
 
     ButtonInfo infos[] =
     {
-        { IDC_PLAY_PLAYBUTTON,  strPlayButton,   9 },
-        { IDC_PLAY_PAUSEBUTTON, strPauseButton,  9 },
-        { IDC_PLAY_STOPBUTTON,  strStopButton,   9 },
-        { IDC_PLAY_PREVBUTTON,  strPrevButton,  10 },
-        { IDC_PLAY_BACKBUTTON,  strBackButton,  10 },
-        { IDC_PLAY_FORWBUTTON,  strForwButton,  10 },
-        { IDC_PLAY_NEXTBUTTON,  strNextButton,  10 },
+        { IDC_PLAY_PREVBUTTON,  10 },
+        { IDC_PLAY_BACKBUTTON,  10 },
+        { IDC_PLAY_FORWBUTTON,  10 },
+        { IDC_PLAY_NEXTBUTTON,  10 },
     };
 
     uint count = sizeof(infos) / sizeof(ButtonInfo);
     while (count--)
     {
         const ButtonInfo& info = infos[count];
-        setButtonText(info.id, info.text, true, info.fontSize);
+        changeControlTextSize(info.id, info.fontSize);
     }
 
     setButtonImages();
     enableControl(IDC_PLAY_WARNINGBUTTON, false);
 }
 
-void PlaybackWindow::setButtonText(uint id, const WCHAR* text,
-    bool changeFont /*= true*/, uint fontSize /*= 9*/)
+void PlaybackWindow::changeControlTextSize(uint id, uint fontSize)
 {
-    CWindow button = GetDlgItem(id);
-    button.SetWindowText(text);
+    CWindow control = GetDlgItem(id);
+    CFontHandle font = control.GetFont();
 
-    if (changeFont)
-    {
-        CFontHandle font = button.GetFont();
-        CLogFont logFont;
-        font.GetLogFont(&logFont);
+    CLogFont logFont;
+    font.GetLogFont(&logFont);
 
-        logFont.SetHeight(fontSize);
-        font = logFont.CreateFontIndirect();
-        button.SetFont(font);
-    }
+    logFont.SetHeight(fontSize);
+    font = logFont.CreateFontIndirect();
+    control.SetFont(font);
 }
 
 void PlaybackWindow::setButtonImages()
@@ -166,12 +159,13 @@ void PlaybackWindow::initSpeedControl()
 
 LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled)
 {
-    const TCHAR* strDefaultExtension = TEXT("");
     const TCHAR* strFileName = TEXT("");
-    DWORD flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
-    const TCHAR* strFilter = Constants::strFileDialogFilter;
 
-    CFileDialog dlg(TRUE, strDefaultExtension, strFileName, flags, strFilter, *this);
+    CString defaultExtension = translate(IDS_RECORDFILEEXTENSION);
+    CString filter = GuiUtils::makeFilter(translate(IDS_FILEDIALOGFILTER));
+
+    DWORD flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
+    CFileDialog dlg(TRUE, defaultExtension, strFileName, flags, filter, *this);
     // TODO: fill initial folder and file name based on the previous choice
 
     INT_PTR answer = dlg.DoModal();
@@ -195,25 +189,25 @@ LRESULT PlaybackWindow::OnRecordFileNameChanged(WORD code, WORD id, HWND hwnd, B
     CString fileName;
     edit.GetWindowText(fileName);
 
-    const TCHAR* errorDesc = 0;
+    CString errorDesc;
     bool showErrorIcon = false;
 
     if (fileName.IsEmpty())
     {
-        errorDesc = Constants::strRecordFileNameEmpty;
+        errorDesc = translate(IDS_ERR_RECORDFILENAMEEMPTY);
     }
     else if (!PathUtils::isFileExist(fileName))
     {
-        errorDesc = Constants::strRecordFileNotExist;
+        errorDesc = translate(IDS_ERR_RECORDFILENOTEXIST);
         showErrorIcon = true;
     }
     else if (!PathUtils::isFileReadable(fileName))
     {
-        errorDesc = Constants::strRecordFileNotReadable;
+        errorDesc = translate(IDS_ERR_RECORDFILENOTREADABLE);
         showErrorIcon = true;
     }
 
-    if (errorDesc)
+    if (!errorDesc.IsEmpty())
     {
         setError(errorDesc, showErrorIcon);
     }
@@ -266,10 +260,10 @@ void PlaybackWindow::showControl(uint id, bool show /*= true*/)
     wnd.ShowWindow(show ? SW_SHOW : SW_HIDE);
 }
 
-void PlaybackWindow::setError(const TCHAR* errorDesc /*= 0*/,
+void PlaybackWindow::setError(const CString& errorDesc /*= CString()*/,
     bool showErrorIcon /*= true*/)
 {
-    bool error = (errorDesc != 0);
+    bool error = !errorDesc.IsEmpty();
     enableMediaButtons(!error);
 
     if (error)

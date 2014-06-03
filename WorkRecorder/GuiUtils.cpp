@@ -24,3 +24,12 @@ BOOL CALLBACK GuiUtils::setSystemDefaultFontCallback(HWND hwnd, LPARAM lParam)
 
     return TRUE;
 }
+
+//static
+CString GuiUtils::makeFilter(const CString& filter, TCHAR maskSymbol /*= TEXT('#')*/)
+{
+    CString result = filter;
+    result.Replace(maskSymbol, 0);
+
+    return result;
+}
