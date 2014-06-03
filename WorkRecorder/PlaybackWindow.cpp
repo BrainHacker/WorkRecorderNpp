@@ -61,6 +61,7 @@ LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& han
 
     initButtons();
     initSpeedControl();
+    initToolTips();
 
     setError(translate(IDS_ERR_RECORDFILENAMEEMPTY), false);
     
@@ -73,6 +74,15 @@ LRESULT PlaybackWindow::OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handle
     // destroy image lists
     browseImageList.Destroy();
     warningImageList.Destroy();
+
+    // destroy tooltips
+    for (CToolTipCtrl& toolTip : toolTips)
+    {
+        if (toolTip.IsWindow())
+        {
+            toolTip.DestroyWindow();
+        }
+    }
 
     return S_OK;
 }
@@ -175,6 +185,49 @@ void PlaybackWindow::initSpeedControl()
     }
 
     box.SetCurSel(currentSpeedIndex);
+}
+
+void PlaybackWindow::initToolTips()
+{
+    typedef struct 
+    {
+        uint id;
+        CString text;
+    } TooltipInfo;
+
+    TooltipInfo infos[] =
+    {
+        { IDC_PLAY_RECORDFILEEDIT,  translate(IDS_TIP_PLAY_FILLRECORDNAME) },
+        { IDC_PLAY_BROWSEBUTTON,    translate(IDS_TIP_PLAY_BROWSE)         },
+        { IDC_PLAY_PLAYBUTTON,      translate(IDS_TIP_PLAY_PLAY)           },
+        { IDC_PLAY_PAUSEBUTTON,     translate(IDS_TIP_PLAY_PAUSE)          },
+        { IDC_PLAY_STOPBUTTON,      translate(IDS_TIP_PLAY_STOP)           },
+        { IDC_PLAY_PREVBUTTON,      translate(IDS_TIP_PLAY_PREV)           },
+        { IDC_PLAY_BACKBUTTON,      translate(IDS_TIP_PLAY_DECREASESPEED)  },
+        { IDC_PLAY_FORWBUTTON,      translate(IDS_TIP_PLAY_INCREASESPEED)  },
+        { IDC_PLAY_NEXTBUTTON,      translate(IDS_TIP_PLAY_NEXT)           },
+        { IDC_PLAY_SPEEDCOMBOBOX,   translate(IDS_TIP_PLAY_CHANGESPEED)    },
+    };
+
+    uint count = sizeof(infos) / sizeof(TooltipInfo);
+    while (count--)
+    {
+        TooltipInfo& tooltipInfo = infos[count];
+
+        CToolTipCtrl toolTip;
+        toolTip.Create(*this, 0, (LPCTSTR)0, WS_POPUP | TTS_ALWAYSTIP);
+
+        TOOLINFO info   = {};
+
+        info.cbSize     = sizeof(TOOLINFO);
+        info.hwnd       = *this;
+        info.uFlags     = TTF_IDISHWND | TTF_SUBCLASS;
+        info.uId        = (UINT_PTR)(HWND)GetDlgItem(tooltipInfo.id);
+        info.lpszText   = tooltipInfo.text.GetBuffer();
+
+        toolTip.AddTool(&info);
+        toolTips.push_back(toolTip);
+    }
 }
 
 LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled)

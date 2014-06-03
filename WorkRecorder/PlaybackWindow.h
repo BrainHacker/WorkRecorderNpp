@@ -71,6 +71,7 @@ private:
     void setButtonImages();
 
     void initSpeedControl();
+    void initToolTips();
 
     /// Enable all media buttons
     void enableMediaButtons(bool enable = true);
@@ -99,4 +100,6 @@ private:
 
     CButtonWithImage warningButton;
     CImageList warningImageList;
+
+    list<CToolTipCtrl> toolTips;
 };

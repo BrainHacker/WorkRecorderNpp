@@ -24,6 +24,7 @@
 #pragma once
 
 // standard files
+#include <list>
 #include <sstream>
 #include <mutex>
 

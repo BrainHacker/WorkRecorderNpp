@@ -125,3 +125,53 @@ msgstr "Work Recorder files (*.rec)#*.rec#All files (*.*)#*.*#"
 msgid "misc: record file extension"
 msgstr ".rec"
 
+#. String resource
+#: STRING.10011
+msgid "tooltip: fill record name"
+msgstr "Fill record file name"
+
+#. String resource
+#: STRING.10012
+msgid "tooltip: browse for record file"
+msgstr "Browse for record file"
+
+#. String resource
+#: STRING.10013
+msgid "tooltip: play record"
+msgstr "Play"
+
+#. String resource
+#: STRING.10014
+msgid "tooltip: pause playback"
+msgstr "Pause"
+
+#. String resource
+#: STRING.10015
+msgid "tooltip: stop playback"
+msgstr "Stop"
+
+#. String resource
+#: STRING.10016
+msgid "tooltip: previous chapter"
+msgstr "Go to previous chapter"
+
+#. String resource
+#: STRING.10017
+msgid "tooltip: decrease playback speed"
+msgstr "Decrease playback speed"
+
+#. String resource
+#: STRING.10018
+msgid "tooltip: increase playback speed"
+msgstr "Increase playback speed"
+
+#. String resource
+#: STRING.10019
+msgid "tooltip: next chapter"
+msgstr "Go to next chapter"
+
+#. String resource
+#: STRING.10020
+msgid "tooltip: change playback speed"
+msgstr "Choose playback speed"
+
