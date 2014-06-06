@@ -26,6 +26,7 @@
 // standard files
 #include <list>
 #include <sstream>
+#include <memory>
 #include <mutex>
 
 using namespace std;
@@ -58,6 +59,10 @@ using namespace std;
 // Notepad++ files
 #include "menuCmdID.h"
 #include "Docking.h"
+
+// Engine
+#include "EngineIface.h"
+#include "TestEngine.h"
 
 // Plug-in files
 #include "PluginInterface.h"

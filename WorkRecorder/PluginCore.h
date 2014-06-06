@@ -43,6 +43,8 @@ public:
 
     FuncItem* getFunctionsArray(uint* count);
 
+    EnginePtr getEngine() const;
+
     /// Commands itself
     static void onShowPlaybackWindow();
     static void onShowRecordingWindow();
@@ -81,4 +83,6 @@ private:
 
     HINSTANCE moduleHandle = 0;
     TCHAR moduleName[MAX_PATH];
+
+    EnginePtr engine;
 };

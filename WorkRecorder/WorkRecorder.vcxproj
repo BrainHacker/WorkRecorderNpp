@@ -132,6 +132,7 @@
     <ClCompile Include="PlaybackWindow.cpp" />
     <ClCompile Include="PluginCore.cpp" />
     <ClCompile Include="RecordingWindow.cpp" />
+    <ClCompile Include="TestEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CButtonWithImage.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Docking.h" />
+    <ClInclude Include="EngineIface.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="GdiPlusHelper.h" />
     <ClInclude Include="GuiUtils.h" />
@@ -154,6 +156,7 @@
     <ClInclude Include="Scintilla.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SingletonImpl.h" />
+    <ClInclude Include="TestEngine.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>

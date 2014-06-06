@@ -41,6 +41,8 @@ public:
 
     void show(bool showFlag = true);
 
+    void setEngine(EnginePtr engine);
+
 protected:
     RecordingWindow() = default;
     virtual ~RecordingWindow() = default;
@@ -50,4 +52,6 @@ protected:
 private:
     /// Message handlers
     LRESULT OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
+
+    EnginePtr engine;
 };

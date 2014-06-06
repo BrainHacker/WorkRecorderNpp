@@ -61,6 +61,10 @@ void PluginCore::init()
     // init commands
     initCommand(&functionsArray[cShowPlaybackWindow],  translate(IDS_MENU_SHOWPLAYBACKWND),  onShowPlaybackWindow );
     initCommand(&functionsArray[cShowRecordingWindow], translate(IDS_MENU_SHOWRECORDINGWND), onShowRecordingWindow);
+
+    // init Engine
+    // replace Test engine with real one when ready
+    engine = EnginePtr(new TestEngine());
 }
 
 void PluginCore::initCommand(FuncItem* item, const CString& name, PFUNCPLUGINCMD pFunc,
@@ -96,6 +100,11 @@ FuncItem* PluginCore::getFunctionsArray(uint* count)
 
     *count = cTotal;
     return functionsArray;
+}
+
+EnginePtr PluginCore::getEngine() const
+{
+    return engine;
 }
 
 //static
@@ -140,6 +149,8 @@ void PluginCore::showWindow(int id, const TCHAR* title, HICON icon)
         data.hIconTab      = icon;
         
         ::SendMessage(parent, NPPM_DMMREGASDCKDLG, 0, (LPARAM)&data);
+        
+        dlg.setEngine(plugin.getEngine());
     }
 
     dlg.show();

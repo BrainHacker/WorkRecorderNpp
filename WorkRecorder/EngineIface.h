@@ -1,5 +1,6 @@
 // 
-// RecordingWindow.cpp
+// EngineIface.h
+// Engine interface.
 //
 // This file is part of Work Recorder plugin for Notepad++.
 // Copyright (c) Dmitry Zakablukov, 2013-2014.
@@ -20,23 +21,12 @@
 // along with Work Recorder plugin. If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "common.h"
+#pragma once
 
-void RecordingWindow::show(bool showFlag /*= true*/)
+class EngineIface
 {
-    HWND parent = PluginCore::getInstance().getNppData()._nppHandle;
-    ::SendMessage(parent, showFlag ? NPPM_DMMSHOW : NPPM_DMMHIDE, 0, (LPARAM)m_hWnd);
-}
+public:
+    virtual ~EngineIface() = default;
+};
 
-void RecordingWindow::setEngine(EnginePtr engine)
-{
-    this->engine = engine;
-}
-
-LRESULT RecordingWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
-{
-    GuiUtils::setSystemDefaultFont(*this);
-
-    DlgResize_Init(false, false, 0);
-    return S_OK;
-}
+typedef shared_ptr<EngineIface> EnginePtr;

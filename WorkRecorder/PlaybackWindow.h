@@ -49,6 +49,8 @@ public:
 
     void show(bool showFlag = true);
 
+    void setEngine(EnginePtr engine);
+
 protected:
     PlaybackWindow() = default;
     virtual ~PlaybackWindow() = default;
@@ -102,4 +104,6 @@ private:
     CImageList warningImageList;
 
     list<CToolTipCtrl> toolTips;
+
+    EnginePtr engine;
 };
