@@ -25,7 +25,7 @@
 
 void GdiPlusHelper::init()
 {
-    Gdiplus::GdiplusStartup(&token, &input, NULL);
+    Gdiplus::GdiplusStartup(&token, &input, nullptr);
 }
 
 void GdiPlusHelper::uninit()

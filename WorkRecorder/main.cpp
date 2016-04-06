@@ -152,7 +152,7 @@ extern "C"
     {/*
      if (Message == WM_MOVE)
      {
-     ::MessageBox(NULL, "move", "", MB_OK);
+     ::MessageBox(nullptr, "move", "", MB_OK);
      }
      */
         return TRUE;

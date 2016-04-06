@@ -35,7 +35,7 @@ public:
 
     DECLARE_WND_SUPERCLASS(TEXT("CButtonWithImage"), GetWndClassName())
 
-    CButtonWithImage(DWORD dwExtendedStyle = BMPBTN_AUTOSIZE, HIMAGELIST hImageList = NULL);
+    CButtonWithImage(DWORD dwExtendedStyle = BMPBTN_AUTOSIZE, HIMAGELIST hImageList = nullptr);
     void DoPaint(CDCHandle dc);
 
 private:
