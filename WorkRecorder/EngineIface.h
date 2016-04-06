@@ -29,4 +29,4 @@ public:
     virtual ~EngineIface() = default;
 };
 
-typedef shared_ptr<EngineIface> EnginePtr;
+typedef unique_ptr<EngineIface> EnginePtr;

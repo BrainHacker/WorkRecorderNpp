@@ -49,7 +49,7 @@ public:
 
     void show(bool showFlag = true);
 
-    void setEngine(EnginePtr engine);
+    void setEngine(EnginePtr&& engine);
 
 protected:
     PlaybackWindow() = default;

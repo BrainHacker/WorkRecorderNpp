@@ -51,9 +51,9 @@ void PlaybackWindow::show(bool showFlag /*= true*/)
     ::SendMessage(parent, showFlag ? NPPM_DMMSHOW : NPPM_DMMHIDE, 0, (LPARAM)m_hWnd);
 }
 
-void PlaybackWindow::setEngine(shared_ptr<EngineIface> engine)
+void PlaybackWindow::setEngine(EnginePtr&& engine)
 {
-    this->engine = engine;
+    this->engine = move(engine);
 }
 
 LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
