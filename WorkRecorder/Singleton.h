@@ -27,7 +27,7 @@ class Singleton
 {
 public:
     Singleton() = default;
-    virtual ~Singleton();
+    virtual ~Singleton() = default;
 
     static T& getInstance();
     static void destroy();

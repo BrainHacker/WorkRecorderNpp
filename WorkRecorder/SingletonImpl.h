@@ -23,23 +23,10 @@
 #pragma once
 
 template<typename T>
-mutex Singleton<T>::guard = mutex();
+mutex Singleton<T>::guard;
 
 template<typename T>
-T* Singleton<T>::instance = 0;
-
-
-//template<typename T>
-//Singleton<T>::Singleton()
-//    : instance(0)
-//    , guard()
-//{
-//}
-
-template<typename T>
-Singleton<T>::~Singleton()
-{
-}
+T* Singleton<T>::instance = nullptr;
 
 //static
 template<typename T>
@@ -74,7 +61,7 @@ void Singleton<T>::destroy()
         if (instance)
         {
             delete instance;
-            instance = 0;
+            instance = nullptr;
         }
     }
 }
