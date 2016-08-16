@@ -124,20 +124,29 @@ extern "C"
     {
         switch (notifyCode->nmhdr.code)
         {
-        case NPPN_TBMODIFICATION:
-        {
-            addToolbarIcon(IDB_PLAYBACKTOOLBARICON, PluginCore::cShowPlaybackWindow);
-            addToolbarIcon(IDB_RECORDTOOLBARICON,   PluginCore::cShowRecordingWindow);
-        }
-        break;
+            case NPPN_TBMODIFICATION:
+            {
+                addToolbarIcon(IDB_PLAYBACKTOOLBARICON, PluginCore::cShowPlaybackWindow);
+                addToolbarIcon(IDB_RECORDTOOLBARICON, PluginCore::cShowRecordingWindow);
+            }
+            break;
 
-        case NPPN_SHUTDOWN:
-        {
-            onNppShutdown();
-        }
-        break;
+            case NPPN_SHUTDOWN:
+            {
+                onNppShutdown();
+            }
+            break;
 
-        default:
+            case SCN_MODIFIED:
+            {
+                if (notifyCode->modificationType == SC_MOD_INSERTTEXT)
+                {
+                    int i = 0;
+                }
+            }
+            break;
+
+            default:
             return;
         }
     }

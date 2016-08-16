@@ -61,6 +61,8 @@ using namespace std;
 #include "Docking.h"
 
 // Engine
+#include "OperationCodes.h"
+#include "OperationCodeUtils.h"
 #include "EngineIface.h"
 #include "TestEngine.h"
 

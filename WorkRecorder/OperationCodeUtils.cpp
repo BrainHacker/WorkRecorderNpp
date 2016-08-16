@@ -1,6 +1,5 @@
 // 
-// Types.h
-// Basic types definition
+// OperationCodesUtils.cpp
 //
 // This file is part of Work Recorder plugin for Notepad++.
 // Copyright (c) Dmitry Zakablukov, 2013-2014.
@@ -21,15 +20,32 @@
 // along with Work Recorder plugin. If not, see <http://www.gnu.org/licenses/>.
 //
 
-#pragma once
+#include "common.h"
 
-#include <cinttypes>
+// static
+void OperationCodesUtils::format(std::ostream& output, const OpCode& opCode)
+{
+    output << (byte)opCode.code;
+    
+    if (opCode.numField != undefined(opCode.numField))
+    {
+        // todo: write variable int
+        output << opCode.numField;
+    }
+    else if (opCode.strField.size())
+    {
+        // todo: write variable int for size
+        output << opCode.strField.size();
+        output << opCode.strField.c_str();
+        output << opCode.strField.size();
+    }
 
-typedef unsigned int uint;
-typedef unsigned long long uhyper;
+    output << (byte)opCode.code;
+}
 
-typedef uint8_t byte;
-typedef uint32_t dword;
-typedef uint64_t qword;
-
-#define undefined(x) ((decltype(x))-1)
+// static
+OpCode OperationCodesUtils::parse(std::istream& input)
+{
+    OpCode opCode;
+    return opCode;
+}

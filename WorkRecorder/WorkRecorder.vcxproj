@@ -124,6 +124,7 @@
     <ClCompile Include="GuiUtils.cpp" />
     <ClCompile Include="Localization.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OperationCodeUtils.cpp" />
     <ClCompile Include="PathUtils.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -147,6 +148,8 @@
     <ClInclude Include="Localization.h" />
     <ClInclude Include="menuCmdID.h" />
     <ClInclude Include="Notepad_plus_msgs.h" />
+    <ClInclude Include="OperationCodes.h" />
+    <ClInclude Include="OperationCodeUtils.h" />
     <ClInclude Include="PathUtils.h" />
     <ClInclude Include="PlaybackWindow.h" />
     <ClInclude Include="PluginCore.h" />
