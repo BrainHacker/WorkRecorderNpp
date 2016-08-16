@@ -25,6 +25,12 @@
 class OperationCodesUtils
 {
 public:
-    static void format(std::ostream& output, const OpCode& opCode);
-    static OpCode parse(std::istream& input);
+    static void format(std::ostream& output, const OpCodeInfo& opCode);
+    static OpCodeInfo parse(std::istream& input);
+
+    static bool hasOppositeCode(OperationCode code);
+    static OperationCode getOppositeCode(OperationCode code);
+
+private:
+    static std::unordered_map<OperationCode, OperationCode> oppositeOperationCodes;
 };
