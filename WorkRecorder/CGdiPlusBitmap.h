@@ -3,9 +3,9 @@
 // Downloaded from http://www.codeproject.com/Articles/3537/Loading-JPG-PNG-resources-using-GDI
 //
 // This file is part of Work Recorder plugin for Notepad++.
-// Copyright (c) Dmitry Zakablukov, 2013-2014.
+// Copyright (c) Dmitry Zakablukov, 2013-2017.
 // E-mail: dmitriy.zakablukov@gmail.com
-// Web: https://github.com/BrainHacker/WorkRecorderNpp
+// Web: https://github.com/dmitry-zakablukov/WorkRecorderNpp
 //
 // Work Recorder plugin is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
