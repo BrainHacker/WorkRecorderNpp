@@ -1,5 +1,5 @@
 // 
-// OperationCodes.h
+// OperationCode.h
 //
 // This file is part of Work Recorder plugin for Notepad++.
 // Copyright (c) Dmitry Zakablukov, 2013-2017.
@@ -23,7 +23,7 @@
 #pragma once
 
 /// Enumeration of supported operations codes and their brief description
-enum OperationCodes
+enum OperationCode
 {
     // common operations
 
@@ -98,9 +98,9 @@ enum OperationCodes
     delimiterFlag = 0xFF,
 };
 
-struct OpCode
+struct OpCodeInfo
 {
-    OperationCodes code;
+    OperationCode code;
     std::string strField;
     qword numField = undefined(numField);
 };

@@ -152,10 +152,10 @@
     <ClInclude Include="TestEngine.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="OperationCodes.h">
+    <ClInclude Include="OperationCodeUtils.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="OperationCodeUtils.h">
+    <ClInclude Include="OperationCode.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>

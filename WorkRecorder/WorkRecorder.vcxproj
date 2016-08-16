@@ -148,7 +148,7 @@
     <ClInclude Include="Localization.h" />
     <ClInclude Include="menuCmdID.h" />
     <ClInclude Include="Notepad_plus_msgs.h" />
-    <ClInclude Include="OperationCodes.h" />
+    <ClInclude Include="OperationCode.h" />
     <ClInclude Include="OperationCodeUtils.h" />
     <ClInclude Include="PathUtils.h" />
     <ClInclude Include="PlaybackWindow.h" />

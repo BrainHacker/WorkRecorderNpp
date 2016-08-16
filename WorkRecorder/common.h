@@ -25,6 +25,7 @@
 
 // standard files
 #include <list>
+#include <unordered_map>
 #include <sstream>
 #include <memory>
 #include <mutex>
@@ -61,7 +62,7 @@ using namespace std;
 #include "Docking.h"
 
 // Engine
-#include "OperationCodes.h"
+#include "OperationCode.h"
 #include "OperationCodeUtils.h"
 #include "EngineIface.h"
 #include "TestEngine.h"
