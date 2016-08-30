@@ -105,13 +105,13 @@ extern "C"
         PluginCore::getInstance().setNppData(notpadPlusData);
     }
 
-    __declspec(dllexport) const TCHAR * getName()
+    __declspec(dllexport) const TCHAR* getName()
     {
         static CString pluginName = translate(IDS_PLUGIN_DISPLAYNAME);
         return pluginName;
     }
 
-    __declspec(dllexport) FuncItem * getFuncsArray(int *nbF)
+    __declspec(dllexport) FuncItem* getFuncsArray(int* nbF)
     {
         uint count = 0;
         FuncItem* functionsArray = PluginCore::getInstance().getFunctionsArray(&count);
@@ -120,9 +120,9 @@ extern "C"
         return functionsArray;
     }
 
-    __declspec(dllexport) void beNotified(SCNotification *notifyCode)
+    __declspec(dllexport) void beNotified(SCNotification* notifyInfo)
     {
-        switch (notifyCode->nmhdr.code)
+        switch (notifyInfo->nmhdr.code)
         {
             case NPPN_TBMODIFICATION:
             {
@@ -139,9 +139,16 @@ extern "C"
 
             case SCN_MODIFIED:
             {
-                if (notifyCode->modificationType == SC_MOD_INSERTTEXT)
+                auto modType = notifyInfo->modificationType;
+                if (modType & SC_MOD_INSERTTEXT)
                 {
-                    int i = 0;
+                    // PluginCore::getInstance().onTextAdded(
+                    //    notifyInfo->position, notifyCode->text, notifyCode->length, current_time);
+                }
+                else if (modType & SC_MOD_DELETETEXT)
+                {
+                    // PluginCore::getInstance().onTextRemoved(
+                    //    notifyInfo->position, notifyCode->text, notifyCode->length, current_time);
                 }
             }
             break;
@@ -151,19 +158,18 @@ extern "C"
         }
     }
 
-
     // Here you can process the Npp Messages 
     // I will make the messages accessible little by little, according to the need of plugin development.
     // Please let me know if you need to access to some messages :
     // http://sourceforge.net/forum/forum.php?forum_id=482781
     //
     __declspec(dllexport) LRESULT messageProc(UINT Message, WPARAM wParam, LPARAM lParam)
-    {/*
-     if (Message == WM_MOVE)
-     {
-     ::MessageBox(nullptr, "move", "", MB_OK);
-     }
-     */
+    {
+        //if (Message == WM_MOVE)
+        //{
+        //    ::MessageBox(nullptr, "move", "", MB_OK);
+        //}
+
         return TRUE;
     }
 

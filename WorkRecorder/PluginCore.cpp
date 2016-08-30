@@ -139,7 +139,7 @@ void PluginCore::showWindow(int id, const TCHAR* title, HICON icon)
         ::SendMessage(parent, NPPM_MODELESSDIALOG, MODELESSDIALOGADD, (LPARAM)(HWND)dlg);
 
         // fill dockable info
-        tTbData	data = {};
+        tTbData data{};
 
         data.hClient       = (HWND)dlg;
         data.pszName       = (TCHAR*)title;
