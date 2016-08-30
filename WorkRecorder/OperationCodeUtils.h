@@ -31,6 +31,9 @@ public:
     static bool hasOppositeCode(OperationCode code);
     static OperationCode getOppositeCode(OperationCode code);
 
+    static const uint numMaxIntegerSize;
+    static const uint numMaxStringSize;
+
 private:
     static std::unordered_map<OperationCode, OperationCode> oppositeOperationCodes;
 };

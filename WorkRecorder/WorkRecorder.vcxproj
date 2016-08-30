@@ -122,6 +122,7 @@
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="GdiPlusHelper.cpp" />
     <ClCompile Include="GuiUtils.cpp" />
+    <ClCompile Include="IoUtils.cpp" />
     <ClCompile Include="Localization.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OperationCodeUtils.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="GdiPlusHelper.h" />
     <ClInclude Include="GuiUtils.h" />
+    <ClInclude Include="IoUtils.h" />
     <ClInclude Include="Localization.h" />
     <ClInclude Include="menuCmdID.h" />
     <ClInclude Include="Notepad_plus_msgs.h" />

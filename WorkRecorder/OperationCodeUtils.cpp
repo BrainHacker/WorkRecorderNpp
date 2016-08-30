@@ -22,6 +22,9 @@
 
 #include "common.h"
 
+const uint OperationCodesUtils::numMaxIntegerSize = UCHAR_MAX - sizeof(byte) - sizeof(dword); //header + overall size
+const uint OperationCodesUtils::numMaxStringSize = OperationCodesUtils::numMaxIntegerSize - sizeof(byte); // + string size
+
 std::unordered_map<OperationCode, OperationCode> OperationCodesUtils::oppositeOperationCodes =
 {
     {OperationCode::insertString, OperationCode::removeString},
@@ -37,39 +40,42 @@ std::unordered_map<OperationCode, OperationCode> OperationCodesUtils::oppositeOp
 // static
 void OperationCodesUtils::format(std::ostream& output, const OpCodeInfo& opCode)
 {
+    uint totalSize = 0;
+
     output << (byte)opCode.code;
+    totalSize += sizeof(byte);
     
-    bool hasContent = true;
     if (opCode.numField != undefined(opCode.numField))
     {
-        // todo: write variable int
-        output << opCode.numField;
-    }
-    else if (opCode.strField.size())
-    {
-        // todo: write variable int for size
-        output << opCode.strField.size();
-        output << opCode.strField.c_str();
-        output << opCode.strField.size();
+        uint size = IoUtils::writeVarInteger(output, opCode.numField);
+        assert(size <= numMaxIntegerSize, Constants::strOverflow);
+
+        totalSize += size;
     }
     else
     {
-        hasContent = false;
+        size_t stringSize = opCode.strField.size();
+        if (stringSize)
+        {
+            assert(stringSize <= numMaxStringSize, Constants::strOverflow);
+            output << (byte)stringSize;
+            totalSize += sizeof(byte);
+
+            output << opCode.strField.c_str();
+            totalSize += stringSize;
+        }
     }
 
-    if (hasContent)
-    {
-        if (hasOppositeCode(opCode.code))
-            output << (byte)getOppositeCode(opCode.code);
-        else
-            output << (byte)opCode.code;
-    }
+    assert(totalSize <= UCHAR_MAX, Constants::strOverflow);
+    output << (byte)totalSize;
 }
 
 // static
 OpCodeInfo OperationCodesUtils::parse(std::istream& input)
 {
     OpCodeInfo opCode;
+    // todo
+
     return opCode;
 }
 

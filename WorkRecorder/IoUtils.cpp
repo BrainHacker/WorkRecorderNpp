@@ -1,5 +1,5 @@
 // 
-// Constants.cpp
+// IoUtils.cpp
 //
 // This file is part of Work Recorder plugin for Notepad++.
 // Copyright (c) Dmitry Zakablukov, 2013-2017.
@@ -22,10 +22,41 @@
 
 #include "common.h"
 
-namespace Constants
+// static
+uhyper IoUtils::readVarInteger(std::istream& input)
 {
-    // Error descriptions
-    const char* strNullPtr = "Null ptr";
-    const char* strIndexOutOfRange = "Index out of range";
-    const char* strOverflow = "Overflow";
-} //namespace Constants
+    uhyper value = 0;
+    
+    byte currentByte = 0;
+    do
+    {
+        input >> currentByte;
+        
+        value <<= Constants::numSignificantBitCount;
+        value |= currentByte >> (CHAR_BIT - Constants::numSignificantBitCount);
+    } while (currentByte & Constants::numContinueBit);
+
+    return value;
+}
+
+// static
+uint IoUtils::writeVarInteger(std::ostream& output, uhyper value)
+{
+    uint totalSize = 0;
+    byte currentByte = 0;
+
+    do 
+    {
+        currentByte = (value & ((1 << Constants::numSignificantBitCount) - 1));
+        currentByte <<= (CHAR_BIT - Constants::numSignificantBitCount);
+
+        value >>= Constants::numSignificantBitCount;
+        if (value)
+            currentByte &= Constants::numContinueBit;
+
+        output << currentByte;
+        ++totalSize;
+    } while (value);
+
+    return totalSize;
+}

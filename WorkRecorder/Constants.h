@@ -27,4 +27,5 @@ namespace Constants
     // Error descriptions
     extern const char* strNullPtr;
     extern const char* strIndexOutOfRange;
+    extern const char* strOverflow;
 } //namespace Constants

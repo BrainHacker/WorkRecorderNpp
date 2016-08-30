@@ -56,6 +56,7 @@ using namespace std;
 #include "Singleton.h"
 #include "SingletonImpl.h"
 #include "PathUtils.h"
+#include "IoUtils.h"
 
 // Notepad++ files
 #include "menuCmdID.h"

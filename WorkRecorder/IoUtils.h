@@ -1,5 +1,5 @@
 // 
-// Constants.cpp
+// IoUtils.h
 //
 // This file is part of Work Recorder plugin for Notepad++.
 // Copyright (c) Dmitry Zakablukov, 2013-2017.
@@ -20,12 +20,17 @@
 // along with Work Recorder plugin. If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "common.h"
+#pragma once
 
-namespace Constants
+class IoUtils
 {
-    // Error descriptions
-    const char* strNullPtr = "Null ptr";
-    const char* strIndexOutOfRange = "Index out of range";
-    const char* strOverflow = "Overflow";
-} //namespace Constants
+public:
+    static uhyper readVarInteger(std::istream& input);
+    static uint writeVarInteger(std::ostream& output, uhyper value);
+private:
+    enum Constants
+    {
+        numSignificantBitCount = 7,
+        numContinueBit = 1,
+    };
+};

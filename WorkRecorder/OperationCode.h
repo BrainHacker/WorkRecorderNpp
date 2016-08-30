@@ -29,47 +29,47 @@ enum OperationCode
 
     /// <summary>
     /// Set cursor to specified position.
-    /// <para>Format: operation code (1 byte), cursor position (4 bytes), operation code (1 byte).</para>
+    /// <para>Format: operation code (1 byte), cursor position (var integer), overall length (1 byte).</para>
     /// </summary>
     setCursorPosition = 0,
 
     /// <summary>
-    /// Insert whole string.
-    /// <para>Format: operation code (1 byte), string length (4 bytes), raw string data (char[]),
-    /// string length (4 bytes), operation code for removing the string(1 byte).</para>
+    /// Insert string.
+    /// <para>Format: operation code (1 byte), string length (1 byte), raw string data (char[]),
+    /// overall length (1 byte).</para>
     /// </summary>
     insertString,
 
     /// <summary>
-    /// Remove whole string (opposite to insertString).
-    /// <para>Format: operation code (1 byte), string length (4 bytes), raw string data (char[]),
-    /// string length (4 bytes), operation code for inserting the string(1 byte).</para>
+    /// Remove string (opposite to insertString).
+    /// <para>Format: operation code (1 byte), string length (1 byte), raw string data (char[]),
+    /// overall length (1 byte).</para>
     /// </summary>
     removeString,
 
     /// <summary>
     /// Normal typing.
-    /// <para>Format: operation code (1 byte), string length (4 bytes), raw string data (char[]),
-    /// string length (4 bytes), operation code for untyping the string(1 byte).</para>
+    /// <para>Format: operation code (1 byte), string length (1 byte), raw string data (char[]),
+    /// overall length (1 byte).</para>
     /// </summary>
     typeString,
     /// <summary>
     /// Erasing string using Backspace key (opposite to typeString).
-    /// <para>Format: operation code (1 byte), string length (4 bytes), raw string data (char[]),
-    /// string length (4 bytes), operation code for typing the string(1 byte).</para>
+    /// <para>Format: operation code (1 byte), string length (1 byte), raw string data (char[]),
+    /// overall length (1 byte).</para>
     /// </summary>
     untypeString,
 
     /// <summary>
     /// Erasing string using Delete key.
-    /// <para>Format: operation code (1 byte), string length (4 bytes), raw string data (char[]),
-    /// string length (4 bytes), operation code for pushing the string(1 byte).</para>
+    /// <para>Format: operation code (1 byte), string length (1 byte), raw string data (char[]),
+    /// overall length (1 byte).</para>
     /// </summary>
     pullString,
     /// <summary>
     /// Type string without changing cursor position (opposite to pullString).
-    /// <para>Format: operation code (1 byte), string length (4 bytes), raw string data (char[]),
-    /// string length (4 bytes), operation code for pulling the string(1 byte).</para>
+    /// <para>Format: operation code (1 byte), string length (1 byte), raw string data (char[]),
+    /// overall length (1 byte).</para>
     /// </summary>
     pushString,
 
@@ -77,13 +77,13 @@ enum OperationCode
 
     /// <summary>
     /// Sleep specified amount of time in ms before proceeding.
-    /// <para>Format: operation code (1 byte), sleep time in ms (4 bytes), operation code (1 byte).</para>
+    /// <para>Format: operation code (1 byte), sleep time in ms (var integer), overall length (1 byte).</para>
     /// </summary>
     sleepTime,
 
     /// <summary>
-    /// Pause playback until user continue it.
-    /// <para>Format: operation code (1 byte).</para>
+    /// Pause playback until user continues it.
+    /// <para>Format: operation code (1 byte), overall length (1 byte).</para>
     /// </summary>
     pausePlayback,
 
