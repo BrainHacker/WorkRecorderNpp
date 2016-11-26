@@ -1,6 +1,6 @@
 // 
-// EngineIface.h
-// Engine interface.
+// RecordingEngine.h
+// Recording engine.
 //
 // This file is part of Work Recorder plugin for Notepad++.
 // Copyright (c) Dmitry Zakablukov, 2013-2017.
@@ -23,13 +23,23 @@
 
 #pragma once
 
-class EngineIface
+class RecordingEngine : public EngineIface
 {
 public:
-    virtual ~EngineIface() = default;
+    RecordingEngine() = default;
+    virtual ~RecordingEngine() = default;
 
-    virtual void onTextAdded(int position, const char* text, int length, uhyper timestamp) = 0;
-    virtual void onTextRemoved(int position, const char* text, int length, uhyper timestamp) = 0;
+    enum class State
+    {
+        idle,
+        playing,
+        recording,
+    };
+
+    virtual void onTextAdded(int position, const char* text, int length, uhyper timestamp) override;
+    virtual void onTextRemoved(int position, const char* text, int length, uhyper timestamp) override;
+
+private:
+    mutex engineGuard;
+    State state = State::idle;
 };
-
-typedef shared_ptr<EngineIface> EnginePtr;

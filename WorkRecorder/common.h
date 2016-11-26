@@ -66,7 +66,7 @@ using namespace std;
 #include "OperationCode.h"
 #include "OperationCodeUtils.h"
 #include "EngineIface.h"
-#include "TestEngine.h"
+#include "RecordingEngine.h"
 
 // Plug-in files
 #include "PluginInterface.h"

@@ -23,10 +23,6 @@
 
 #include "common.h"
 
-PluginCore::PluginCore()
-{
-}
-
 void PluginCore::setModuleHandle(HINSTANCE handle)
 {
     moduleHandle = handle;
@@ -64,11 +60,11 @@ void PluginCore::init()
 
     // init Engine
     // replace Test engine with real one when ready
-    engine = EnginePtr(new TestEngine());
+    engine = EnginePtr(new RecordingEngine());
 }
 
 void PluginCore::initCommand(FuncItem* item, const CString& name, PFUNCPLUGINCMD pFunc,
-    ShortcutKey* sk /*= 0*/, bool checkOnInit /*=false*/)
+    ShortcutKey* sk /*= nullptr*/, bool checkOnInit /*=false*/)
 {
     assert(item, Constants::strNullPtr);
     StringCchCopy(item->_itemName, nbChar, name);
@@ -154,4 +150,16 @@ void PluginCore::showWindow(int id, const TCHAR* title, HICON icon)
     }
 
     dlg.show();
+}
+
+void PluginCore::onTextAdded(int position, const char* text, int length, uhyper timestamp)
+{
+    assert(engine, Constants::strNullPtr);
+    engine->onTextAdded(position, text, length, timestamp);
+}
+
+void PluginCore::onTextRemoved(int position, const char* text, int length, uhyper timestamp)
+{
+    assert(engine, Constants::strNullPtr);
+    engine->onTextRemoved(position, text, length, timestamp);
 }

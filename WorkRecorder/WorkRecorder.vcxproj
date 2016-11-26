@@ -133,6 +133,7 @@
     </ClCompile>
     <ClCompile Include="PlaybackWindow.cpp" />
     <ClCompile Include="PluginCore.cpp" />
+    <ClCompile Include="RecordingEngine.cpp" />
     <ClCompile Include="RecordingWindow.cpp" />
     <ClCompile Include="TestEngine.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="PlaybackWindow.h" />
     <ClInclude Include="PluginCore.h" />
     <ClInclude Include="PluginInterface.h" />
+    <ClInclude Include="RecordingEngine.h" />
     <ClInclude Include="RecordingWindow.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scintilla.h" />

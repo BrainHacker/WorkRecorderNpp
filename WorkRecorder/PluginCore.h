@@ -45,6 +45,9 @@ public:
 
     EnginePtr getEngine() const;
 
+    void onTextAdded(int position, const char* text, int length, uhyper timestamp);
+    void onTextRemoved(int position, const char* text, int length, uhyper timestamp);
+
     /// Commands itself
     static void onShowPlaybackWindow();
     static void onShowRecordingWindow();
@@ -53,10 +56,10 @@ public:
     static void showWindow(int id, const TCHAR* title, HICON icon);
 
 protected:
-    PluginCore();
+    PluginCore() = default;
 
     /// Don't forget to deallocate shortcuts if any
-    ~PluginCore() = default;
+    virtual ~PluginCore() = default;
 
     friend class Singleton<PluginCore>;
 
@@ -71,18 +74,18 @@ private:
     /// @param sk - shortcut to trigger this command
     /// @param checkOnInit - make this menu item be checked visually
     void initCommand(FuncItem* item, const CString& name, PFUNCPLUGINCMD pFunc,
-        ShortcutKey* sk = 0, bool checkOnInit = false);
+        ShortcutKey* sk = nullptr, bool checkOnInit = false);
 
     bool initialized = false;
 
     // The plugin data that Notepad++ needs
-    FuncItem functionsArray[cTotal];
+    FuncItem functionsArray[cTotal]{};
 
     // The data of Notepad++ that can be used in plugin commands
-    NppData nppData = NppData{};
+    NppData nppData{};
 
-    HINSTANCE moduleHandle = 0;
-    TCHAR moduleName[MAX_PATH];
+    HINSTANCE moduleHandle = nullptr;
+    TCHAR moduleName[MAX_PATH]{};
 
     EnginePtr engine;
 };

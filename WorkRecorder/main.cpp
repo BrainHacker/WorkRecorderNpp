@@ -142,13 +142,13 @@ extern "C"
                 auto modType = notifyInfo->modificationType;
                 if (modType & SC_MOD_INSERTTEXT)
                 {
-                    // PluginCore::getInstance().onTextAdded(
-                    //    notifyInfo->position, notifyCode->text, notifyCode->length, current_time);
+                    PluginCore::getInstance().onTextAdded(
+                       notifyInfo->position, notifyInfo->text, notifyInfo->length, 0); //todo: add timestamp
                 }
                 else if (modType & SC_MOD_DELETETEXT)
                 {
-                    // PluginCore::getInstance().onTextRemoved(
-                    //    notifyInfo->position, notifyCode->text, notifyCode->length, current_time);
+                    PluginCore::getInstance().onTextRemoved(
+                       notifyInfo->position, notifyInfo->text, notifyInfo->length, 0); //todo: add timestamp
                 }
             }
             break;
