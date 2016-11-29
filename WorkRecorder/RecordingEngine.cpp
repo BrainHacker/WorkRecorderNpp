@@ -23,14 +23,14 @@
 
 #include "common.h"
 
-void RecordingEngine::startRecording()
+void RecordingEngine::startRecording(const wstring& fileName)
 {
     //assert(state == EngineState::idle, "Engine state change failure");
     setState(EngineState::recording);
-    onStartRecording();
+    onStartRecording(fileName);
 }
 
-void RecordingEngine::startPlaying()
+void RecordingEngine::startPlaying(const wstring& fileName)
 {
     //assert(state == EngineState::idle, "Engine state change failure");
     setState(EngineState::playing);
@@ -87,7 +87,7 @@ void RecordingEngine::onTextRemoved(int position, const char* text, int length, 
     }
 }
 
-void RecordingEngine::onStartRecording()
+void RecordingEngine::onStartRecording(const wstring& fileName)
 {
-    recordStream = ofstream("work.rec");
+    recordStream = ofstream(fileName);
 }

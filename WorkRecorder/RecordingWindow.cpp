@@ -60,6 +60,9 @@ LRESULT RecordingWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL&
 
 LRESULT RecordingWindow::OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled)
 {
-    engine->startRecording();
+    CString fileName;
+    GetDlgItemText(IDC_RECORD_RECORDFILEEDIT, fileName);
+
+    engine->startRecording(wstring(fileName));
     return S_OK;
 }

@@ -29,8 +29,8 @@ public:
     RecordingEngine() = default;
     virtual ~RecordingEngine() = default;
 
-    virtual void startRecording() override;
-    virtual void startPlaying() override;
+    virtual void startRecording(const wstring& fileName) override;
+    virtual void startPlaying(const wstring& fileName) override;
 
     virtual void stop() override;
     virtual void pause() override;
@@ -40,7 +40,7 @@ public:
     virtual void onTextRemoved(int position, const char* text, int length, uhyper timestamp) override;
 
 private:
-    void onStartRecording();
+    void onStartRecording(const wstring& fileName);
 
     mutex engineGuard;
     ofstream recordStream;
