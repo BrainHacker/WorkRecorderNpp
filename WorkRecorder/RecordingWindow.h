@@ -39,6 +39,8 @@ public:
 
     BEGIN_MSG_MAP(RecordingWindow)
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
+        COMMAND_ID_HANDLER(IDC_RECORD_BROWSEBUTTON, OnBrowseRecordFile)
         COMMAND_ID_HANDLER(IDC_RECORD_TOGGLEBUTTON, OnRecordButtonPush)
         CHAIN_MSG_MAP(CDialogResize<RecordingWindow>)
     END_MSG_MAP()
@@ -56,8 +58,10 @@ protected:
 private:
     /// Message handlers
     LRESULT OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
+    LRESULT OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
 
     /// Command handlers
+    LRESULT OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled);
     LRESULT OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled);
 
     void setButtonImages();

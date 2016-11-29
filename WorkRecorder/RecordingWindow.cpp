@@ -44,12 +44,6 @@ LRESULT RecordingWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& ha
     return S_OK;
 }
 
-LRESULT RecordingWindow::OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled)
-{
-    engine->startRecording();
-    return S_OK;
-}
-
 void RecordingWindow::setButtonImages()
 {
     CGdiPlusBitmapResource imageSource;
@@ -68,4 +62,42 @@ void RecordingWindow::setButtonImages()
     browseButton.SetImageList(browseImageList);
     browseButton.SetImages(0, 1, 2, 3);
     browseButton.SubclassWindow(GetDlgItem(IDC_RECORD_BROWSEBUTTON));
+}
+
+LRESULT RecordingWindow::OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
+{
+    browseImageList.Destroy();
+    return S_OK;
+}
+
+LRESULT RecordingWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled)
+{
+    const TCHAR* strFileName = TEXT("");
+
+    CString defaultExtension = translate(IDS_RECORDFILEEXTENSION);
+    CString filter = GuiUtils::makeFilter(translate(IDS_FILEDIALOGFILTER));
+
+    DWORD flags = OFN_FILEMUSTEXIST;
+    CFileDialog dlg(FALSE, defaultExtension, strFileName, flags, filter, *this);
+    // TODO: fill initial folder and file name based on the previous choice
+
+    INT_PTR answer = dlg.DoModal();
+    if (answer == IDOK)
+    {
+        CEdit edit = GetDlgItem(IDC_RECORD_RECORDFILEEDIT);
+        edit.SetWindowText(dlg.m_szFileName);
+
+        int length = edit.GetWindowTextLength();
+        edit.SetSel(length, length);
+        edit.SetFocus();
+    }
+
+    return S_OK;
+
+}
+
+LRESULT RecordingWindow::OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled)
+{
+    engine->startRecording();
+    return S_OK;
 }
