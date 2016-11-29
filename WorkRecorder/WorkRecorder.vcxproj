@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="CButtonWithImage.cpp" />
     <ClCompile Include="Constants.cpp" />
+    <ClCompile Include="EngineStateMachine.cpp" />
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="GdiPlusHelper.cpp" />
     <ClCompile Include="GuiUtils.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Docking.h" />
     <ClInclude Include="EngineIface.h" />
+    <ClInclude Include="EngineStateMachine.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="GdiPlusHelper.h" />
     <ClInclude Include="GuiUtils.h" />

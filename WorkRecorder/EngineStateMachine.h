@@ -1,6 +1,6 @@
 // 
-// RecordingEngine.h
-// Recording engine.
+// EngineStateMachine.h
+// State machine for the engine.
 //
 // This file is part of Work Recorder plugin for Notepad++.
 // Copyright (c) Dmitry Zakablukov, 2013-2017.
@@ -23,25 +23,24 @@
 
 #pragma once
 
-class RecordingEngine : public EngineIface, public EngineStateMachine
+enum class EngineState
+{
+    idle,
+    playing,
+    playingPaused,
+    recording,
+    recordingPaused,
+};
+
+class EngineStateMachine
 {
 public:
-    RecordingEngine() = default;
-    virtual ~RecordingEngine() = default;
+    EngineStateMachine() = default;
+    virtual ~EngineStateMachine() = default;
 
-    virtual void startRecording() override;
-    virtual void startPlaying() override;
-
-    virtual void stop() override;
-    virtual void pause() override;
-    virtual void resume() override;
-
-    virtual void onTextAdded(int position, const char* text, int length, uhyper timestamp) override;
-    virtual void onTextRemoved(int position, const char* text, int length, uhyper timestamp) override;
+    void setState(EngineState newState);
+    EngineState getState() const;
 
 private:
-    void onStartRecording();
-
-    mutex engineGuard;
-    ofstream recordStream;
+    EngineState state = EngineState::idle;
 };

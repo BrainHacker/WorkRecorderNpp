@@ -25,54 +25,36 @@
 
 void RecordingEngine::startRecording()
 {
-    assert(state == State::idle, "Engine state change failure");
-    state = State::recording;
+    //assert(state == EngineState::idle, "Engine state change failure");
+    setState(EngineState::recording);
     onStartRecording();
 }
 
 void RecordingEngine::startPlaying()
 {
-    assert(state == State::idle, "Engine state change failure");
-    state = State::playing;
+    //assert(state == EngineState::idle, "Engine state change failure");
+    setState(EngineState::playing);
 }
 
 void RecordingEngine::stop()
 {
-    state = State::idle;
+    setState(EngineState::idle);
 }
 
 void RecordingEngine::pause()
 {
-    if (state == State::playing)
-    {
-        state = State::playingPaused;
-    }
-    else if (state == State::recording)
-    {
-        state = State::recordingPaused;
-    }
-    else
-        assert(false, "Engine state change failure");
+    //todo
 }
 
 void RecordingEngine::resume()
 {
-    if (state == State::playingPaused)
-    {
-        state = State::playing;
-    }
-    else if (state == State::recordingPaused)
-    {
-        state = State::recording;
-    }
-    else
-        assert(state == State::idle, "Engine state change failure");
+    //todo
 }
 
 void RecordingEngine::onTextAdded(int position, const char* text, int length, uhyper timestamp)
 {
     lock_guard<mutex> lock(engineGuard);
-    if (state == State::recording)
+    if (getState() == EngineState::recording)
     {
         //todo
         OpCodeInfo opCode;
@@ -90,7 +72,7 @@ void RecordingEngine::onTextAdded(int position, const char* text, int length, uh
 void RecordingEngine::onTextRemoved(int position, const char* text, int length, uhyper timestamp)
 {
     lock_guard<mutex> lock(engineGuard);
-    if (state == State::recording)
+    if (getState() == EngineState::recording)
     {
         //todo
         OpCodeInfo opCode;
