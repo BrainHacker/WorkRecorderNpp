@@ -67,3 +67,27 @@ void GuiUtils::changeControlFontSize(HWND parentHwnd, uint controlId, uint fontS
     font = logFont.CreateFontIndirect();
     control.SetFont(font);
 }
+
+//static
+void GuiUtils::onBrowseRecordFile(HWND parentHwnd, uint editControlId)
+{
+    const TCHAR* strFileName = TEXT("");
+
+    CString defaultExtension = translate(IDS_RECORDFILEEXTENSION);
+    CString filter = GuiUtils::makeFilter(translate(IDS_FILEDIALOGFILTER));
+
+    DWORD flags = OFN_FILEMUSTEXIST;
+    CFileDialog dlg(FALSE, defaultExtension, strFileName, flags, filter, parentHwnd);
+    // TODO: fill initial folder and file name based on the previous choice
+
+    INT_PTR answer = dlg.DoModal();
+    if (answer == IDOK)
+    {
+        CEdit edit = GetDlgItem(parentHwnd, editControlId);
+        edit.SetWindowText(dlg.m_szFileName);
+
+        int length = edit.GetWindowTextLength();
+        edit.SetSel(length, length);
+        edit.SetFocus();
+    }
+}

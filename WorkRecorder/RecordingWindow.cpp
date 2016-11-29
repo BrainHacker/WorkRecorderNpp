@@ -72,28 +72,8 @@ LRESULT RecordingWindow::OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handl
 
 LRESULT RecordingWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled)
 {
-    const TCHAR* strFileName = TEXT("");
-
-    CString defaultExtension = translate(IDS_RECORDFILEEXTENSION);
-    CString filter = GuiUtils::makeFilter(translate(IDS_FILEDIALOGFILTER));
-
-    DWORD flags = OFN_FILEMUSTEXIST;
-    CFileDialog dlg(FALSE, defaultExtension, strFileName, flags, filter, *this);
-    // TODO: fill initial folder and file name based on the previous choice
-
-    INT_PTR answer = dlg.DoModal();
-    if (answer == IDOK)
-    {
-        CEdit edit = GetDlgItem(IDC_RECORD_RECORDFILEEDIT);
-        edit.SetWindowText(dlg.m_szFileName);
-
-        int length = edit.GetWindowTextLength();
-        edit.SetSel(length, length);
-        edit.SetFocus();
-    }
-
+    GuiUtils::onBrowseRecordFile(*this, IDC_RECORD_RECORDFILEEDIT);
     return S_OK;
-
 }
 
 LRESULT RecordingWindow::OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled)

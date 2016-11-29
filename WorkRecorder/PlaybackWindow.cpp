@@ -206,26 +206,7 @@ void PlaybackWindow::initToolTips()
 
 LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled)
 {
-    const TCHAR* strFileName = TEXT("");
-
-    CString defaultExtension = translate(IDS_RECORDFILEEXTENSION);
-    CString filter = GuiUtils::makeFilter(translate(IDS_FILEDIALOGFILTER));
-
-    DWORD flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
-    CFileDialog dlg(TRUE, defaultExtension, strFileName, flags, filter, *this);
-    // TODO: fill initial folder and file name based on the previous choice
-
-    INT_PTR answer = dlg.DoModal();
-    if (answer == IDOK)
-    {
-        CEdit edit = GetDlgItem(IDC_PLAY_RECORDFILEEDIT);
-        edit.SetWindowText(dlg.m_szFileName);
-
-        int length = edit.GetWindowTextLength();
-        edit.SetSel(length, length);
-        edit.SetFocus();
-    }
-
+    GuiUtils::onBrowseRecordFile(*this, IDC_PLAY_RECORDFILEEDIT);
     return S_OK;
 }
 
