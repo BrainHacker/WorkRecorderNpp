@@ -32,7 +32,11 @@ public:
     static CString makeFilter(const CString& filter, TCHAR maskSymbol = TEXT('#'));
 
     static void changeControlFontSize(HWND parentHwnd, uint controlId, uint fontSize);
-    static void onBrowseRecordFile( HWND parentHwnd, uint editControlId );
+    static void onBrowseRecordFile(HWND parentHwnd, uint editControlId);
+
+    static void loadImages(HWND parentHwnd, uint editControlId,
+        uint browseButtonId, CImageList* browseImageList, CButtonWithImage* browseButton,
+        uint warningButtonId, CImageList* warningImageList, CButtonWithImage* warningButton);
 
 private:
     static BOOL CALLBACK setSystemDefaultFontCallback(HWND hwnd, LPARAM lParam);

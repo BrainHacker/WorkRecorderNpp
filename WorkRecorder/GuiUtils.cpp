@@ -91,3 +91,41 @@ void GuiUtils::onBrowseRecordFile(HWND parentHwnd, uint editControlId)
         edit.SetFocus();
     }
 }
+
+void GuiUtils::loadImages(HWND parentHwnd, uint editControlId,
+    uint browseButtonId, CImageList* browseImageList, CButtonWithImage* browseButton,
+    uint warningButtonId, CImageList* warningImageList, CButtonWithImage* warningButton)
+{
+    RECT rc;
+    CWindow(GetDlgItem(parentHwnd, editControlId)).GetWindowRect(&rc);
+    uint size = rc.bottom - rc.top;
+
+    // set image for browse button
+    if (browseImageList && browseButton)
+    {
+        CGdiPlusBitmapResource imageSource;
+        imageSource.Load(IDR_CHOOSEFILEBITMAP, RT_RCDATA, PluginCore::getInstance().getModuleHandle());
+
+        imageSource.ResizeY(size);
+        CBitmap imageBitmap = imageSource.GetHBITMAP(RGB(0, 0, 0));
+
+        browseImageList->Create(size, size, ILC_COLOR32, 0, 4);
+        browseImageList->Add(imageBitmap);
+
+        browseButton->SetImageList(*browseImageList);
+        browseButton->SetImages(0, 1, 2, 3);
+        browseButton->SubclassWindow(GetDlgItem(parentHwnd, browseButtonId));
+    }
+
+    // set image for warning button
+    if (warningImageList && warningButton)
+    {
+        size -= 2;
+        warningImageList->Create(size, size, ILC_COLOR32, 1, 0);
+        warningImageList->AddIcon(LoadIcon(PluginCore::getInstance().getModuleHandle(), (LPCTSTR)IDI_WARNINGICON));
+
+        warningButton->SetImageList(*warningImageList);
+        warningButton->SetImages(0);
+        warningButton->SubclassWindow(GetDlgItem(parentHwnd, warningButtonId));
+    }
+}

@@ -38,30 +38,12 @@ LRESULT RecordingWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& ha
     GuiUtils::setSystemDefaultFont(*this);
     translateWindow(*this, IDD_RECORDINGDLG);
 
-    setButtonImages();
+    GuiUtils::loadImages(*this, IDC_RECORD_RECORDFILEEDIT,
+        IDC_RECORD_BROWSEBUTTON, &browseImageList, &browseButton,
+        0, nullptr, nullptr);
 
     DlgResize_Init(false, false, 0);
     return S_OK;
-}
-
-void RecordingWindow::setButtonImages()
-{
-    CGdiPlusBitmapResource imageSource;
-    imageSource.Load(IDR_CHOOSEFILEBITMAP, RT_RCDATA, PluginCore::getInstance().getModuleHandle());
-
-    RECT rc;
-    CWindow(GetDlgItem(IDC_RECORD_RECORDFILEEDIT)).GetWindowRect(&rc);
-    uint size = rc.bottom - rc.top;
-
-    imageSource.ResizeY(size);
-    CBitmap imageBitmap = imageSource.GetHBITMAP(RGB(0, 0, 0));
-
-    browseImageList.Create(size, size, ILC_COLOR32, 0, 4);
-    browseImageList.Add(imageBitmap);
-
-    browseButton.SetImageList(browseImageList);
-    browseButton.SetImages(0, 1, 2, 3);
-    browseButton.SubclassWindow(GetDlgItem(IDC_RECORD_BROWSEBUTTON));
 }
 
 LRESULT RecordingWindow::OnDestroy(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)

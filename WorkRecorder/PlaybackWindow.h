@@ -69,7 +69,6 @@ private:
 
     /// Init controls
     void initButtons();
-    void setButtonImages();
 
     void initSpeedControl();
     void initToolTips();

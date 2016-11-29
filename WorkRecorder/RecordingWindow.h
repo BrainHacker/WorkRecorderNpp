@@ -64,8 +64,6 @@ private:
     LRESULT OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled);
     LRESULT OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled);
 
-    void setButtonImages();
-
     CButtonWithImage browseButton = CButtonWithImage(BMPBTN_AUTOSIZE | BMPBTN_HOVER);
     CImageList browseImageList;
 
