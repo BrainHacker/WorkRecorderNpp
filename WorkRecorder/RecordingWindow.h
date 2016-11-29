@@ -31,11 +31,15 @@ public:
     enum { IDD = IDD_RECORDINGDLG };
 
     BEGIN_DLGRESIZE_MAP(RecordingWindow)
-        DLGRESIZE_CONTROL(IDOK, DLSZ_MOVE_X)
+        DLGRESIZE_CONTROL(IDC_RECORD_CHOOSERECORDSTATIC, DLSZ_SIZE_X)
+        DLGRESIZE_CONTROL(IDC_RECORD_RECORDFILEEDIT, DLSZ_SIZE_X)
+        DLGRESIZE_CONTROL(IDC_RECORD_BROWSEBUTTON, DLSZ_MOVE_X)
+        DLGRESIZE_CONTROL(IDC_RECORD_STATESTATIC, DLSZ_SIZE_X)
     END_DLGRESIZE_MAP()
 
     BEGIN_MSG_MAP(RecordingWindow)
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        COMMAND_ID_HANDLER(IDC_RECORD_TOGGLEBUTTON, OnRecordButtonPush)
         CHAIN_MSG_MAP(CDialogResize<RecordingWindow>)
     END_MSG_MAP()
 
@@ -52,6 +56,14 @@ protected:
 private:
     /// Message handlers
     LRESULT OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled);
+
+    /// Command handlers
+    LRESULT OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled);
+
+    void setButtonImages();
+
+    CButtonWithImage browseButton = CButtonWithImage(BMPBTN_AUTOSIZE | BMPBTN_HOVER);
+    CImageList browseImageList;
 
     EnginePtr engine;
 };

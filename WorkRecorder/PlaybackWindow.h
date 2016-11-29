@@ -69,7 +69,6 @@ private:
 
     /// Init controls
     void initButtons();
-    void changeControlTextSize(uint id, uint fontSize);
     void setButtonImages();
 
     void initSpeedControl();
@@ -88,14 +87,10 @@ private:
     /// @param errorDesc - error description, if 0 error message will be hided
     void setError(const CString& errorDesc = CString(), bool showErrorIcon = true);
 
-    typedef struct 
-    {
-        const TCHAR* displayText;
-        float value;
-    } SpeedInfo;
-
+    using SpeedInfo = pair<const TCHAR*, float>; // (displayText, value)
+    
     static const uint numSpeedCount = 19;
-    static SpeedInfo speedArray[numSpeedCount];
+    static array<SpeedInfo, numSpeedCount> speedArray;
 
     CButtonWithImage browseButton = CButtonWithImage(BMPBTN_AUTOSIZE | BMPBTN_HOVER);
     CImageList browseImageList;

@@ -23,7 +23,7 @@
 
 #pragma once
 
-class TestEngine : public EngineIface
+class TestEngine// : public EngineIface
 {
 public:
     TestEngine() = default;

@@ -23,12 +23,67 @@
 
 #include "common.h"
 
+void RecordingEngine::startRecording()
+{
+    assert(state == State::idle, "Engine state change failure");
+    state = State::recording;
+    onStartRecording();
+}
+
+void RecordingEngine::startPlaying()
+{
+    assert(state == State::idle, "Engine state change failure");
+    state = State::playing;
+}
+
+void RecordingEngine::stop()
+{
+    state = State::idle;
+}
+
+void RecordingEngine::pause()
+{
+    if (state == State::playing)
+    {
+        state = State::playingPaused;
+    }
+    else if (state == State::recording)
+    {
+        state = State::recordingPaused;
+    }
+    else
+        assert(false, "Engine state change failure");
+}
+
+void RecordingEngine::resume()
+{
+    if (state == State::playingPaused)
+    {
+        state = State::playing;
+    }
+    else if (state == State::recordingPaused)
+    {
+        state = State::recording;
+    }
+    else
+        assert(state == State::idle, "Engine state change failure");
+}
+
 void RecordingEngine::onTextAdded(int position, const char* text, int length, uhyper timestamp)
 {
     lock_guard<mutex> lock(engineGuard);
     if (state == State::recording)
     {
+        //todo
+        OpCodeInfo opCode;
+        opCode.code = OperationCode::setCursorPosition;
+        opCode.numField = position;
+        OperationCodesUtils::format(recordStream, opCode);
 
+        opCode.code = OperationCode::insertString;
+        opCode.numField = undefined(opCode.numField);
+        opCode.strField = string(text, length);
+        OperationCodesUtils::format(recordStream, opCode);
     }
 }
 
@@ -37,6 +92,20 @@ void RecordingEngine::onTextRemoved(int position, const char* text, int length, 
     lock_guard<mutex> lock(engineGuard);
     if (state == State::recording)
     {
+        //todo
+        OpCodeInfo opCode;
+        opCode.code = OperationCode::setCursorPosition;
+        opCode.numField = position;
+        OperationCodesUtils::format(recordStream, opCode);
 
+        opCode.code = OperationCode::removeString;
+        opCode.numField = undefined(opCode.numField);
+        opCode.strField = string(text, length);
+        OperationCodesUtils::format(recordStream, opCode);
     }
+}
+
+void RecordingEngine::onStartRecording()
+{
+    recordStream = ofstream("work.rec");
 }

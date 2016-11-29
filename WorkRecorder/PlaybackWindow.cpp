@@ -22,27 +22,27 @@
 
 #include "common.h"
 
-PlaybackWindow::SpeedInfo PlaybackWindow::speedArray[PlaybackWindow::numSpeedCount] =
+array<PlaybackWindow::SpeedInfo, PlaybackWindow::numSpeedCount> PlaybackWindow::speedArray =
 {
-    { TEXT("-10.0"), -10.0f  },
-    { TEXT("-5.0"),  - 5.0f  },
-    { TEXT("-2.5"),  - 2.5f  },
-    { TEXT("-2.0"),  - 2.0f  },
-    { TEXT("-1.5"),  - 1.5f  },
-    { TEXT("-1.0"),  - 1.0f  },
-    { TEXT("-0.5"),  - 0.5f  },
-    { TEXT("-0.2"),  - 0.2f  },
-    { TEXT("-0.1"),  - 0.1f  },
-    { TEXT("0.0"),     0.0f  },
-    { TEXT("0.1"),     0.1f  },
-    { TEXT("0.2"),     0.2f  },
-    { TEXT("0.5"),     0.5f  },
-    { TEXT("1.0"),     1.0f  },
-    { TEXT("1.5"),     1.5f  },
-    { TEXT("2.0"),     2.0f  },
-    { TEXT("2.5"),     2.5f  },
-    { TEXT("5.0"),     5.0f  },
-    { TEXT("10.0"),   10.0f  },
+    SpeedInfo{ TEXT("-10.0"), -10.0f  },
+    SpeedInfo{ TEXT("-5.0"),  - 5.0f  },
+    SpeedInfo{ TEXT("-2.5"),  - 2.5f  },
+    SpeedInfo{ TEXT("-2.0"),  - 2.0f  },
+    SpeedInfo{ TEXT("-1.5"),  - 1.5f  },
+    SpeedInfo{ TEXT("-1.0"),  - 1.0f  },
+    SpeedInfo{ TEXT("-0.5"),  - 0.5f  },
+    SpeedInfo{ TEXT("-0.2"),  - 0.2f  },
+    SpeedInfo{ TEXT("-0.1"),  - 0.1f  },
+    SpeedInfo{ TEXT("0.0"),     0.0f  },
+    SpeedInfo{ TEXT("0.1"),     0.1f  },
+    SpeedInfo{ TEXT("0.2"),     0.2f  },
+    SpeedInfo{ TEXT("0.5"),     0.5f  },
+    SpeedInfo{ TEXT("1.0"),     1.0f  },
+    SpeedInfo{ TEXT("1.5"),     1.5f  },
+    SpeedInfo{ TEXT("2.0"),     2.0f  },
+    SpeedInfo{ TEXT("2.5"),     2.5f  },
+    SpeedInfo{ TEXT("5.0"),     5.0f  },
+    SpeedInfo{ TEXT("10.0"),   10.0f  },
 };
 
 void PlaybackWindow::show(bool showFlag /*= true*/)
@@ -58,9 +58,6 @@ void PlaybackWindow::setEngine(EnginePtr&& engine)
 
 LRESULT PlaybackWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 {
-    CString title;
-    GetWindowText(title);
-
     GuiUtils::setSystemDefaultFont(*this);
     translateWindow(*this, IDD_PLAYBACKDLG);
 
@@ -105,42 +102,22 @@ LRESULT PlaybackWindow::OnClick(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 
 void PlaybackWindow::initButtons()
 {
-    typedef struct 
+    using ButtonInfo = pair<uint, uint>; // (id, fontSize) 
+    array<ButtonInfo, 4> infos =
     {
-        uint id;
-        uint fontSize;
-    } ButtonInfo;
-
-    ButtonInfo infos[] =
-    {
-        { IDC_PLAY_PREVBUTTON,  10 },
-        { IDC_PLAY_BACKBUTTON,  10 },
-        { IDC_PLAY_FORWBUTTON,  10 },
-        { IDC_PLAY_NEXTBUTTON,  10 },
+        ButtonInfo{ IDC_PLAY_PREVBUTTON,  10 },
+        ButtonInfo{ IDC_PLAY_BACKBUTTON,  10 },
+        ButtonInfo{ IDC_PLAY_FORWBUTTON,  10 },
+        ButtonInfo{ IDC_PLAY_NEXTBUTTON,  10 },
     };
 
-    uint count = sizeof(infos) / sizeof(ButtonInfo);
-    while (count--)
+    for (const ButtonInfo& info : infos)
     {
-        const ButtonInfo& info = infos[count];
-        changeControlTextSize(info.id, info.fontSize);
+        GuiUtils::changeControlFontSize(*this, info.first, info.second);
     }
 
     setButtonImages();
     enableControl(IDC_PLAY_WARNINGBUTTON, false);
-}
-
-void PlaybackWindow::changeControlTextSize(uint id, uint fontSize)
-{
-    CWindow control = GetDlgItem(id);
-    CFontHandle font = control.GetFont();
-
-    CLogFont logFont;
-    font.GetLogFont(&logFont);
-
-    logFont.SetHeight(fontSize);
-    font = logFont.CreateFontIndirect();
-    control.SetFont(font);
 }
 
 void PlaybackWindow::setButtonImages()
@@ -178,15 +155,15 @@ void PlaybackWindow::initSpeedControl()
     uint currentSpeedIndex = 0;
     CComboBox box = GetDlgItem(IDC_PLAY_SPEEDCOMBOBOX);
 
-    for (uint index = 0; index < numSpeedCount; ++index)
+    uint index = 0;
+    for (const SpeedInfo& info : speedArray)
     {
-        const SpeedInfo& info = speedArray[index];
-        box.AddString(info.displayText);
-
-        if (info.value == 1.0f)
+        box.AddString(info.first);
+        if (info.second == 1.0f)
         {
             currentSpeedIndex = index;
         }
+        ++index;
     }
 
     box.SetCurSel(currentSpeedIndex);
@@ -194,31 +171,23 @@ void PlaybackWindow::initSpeedControl()
 
 void PlaybackWindow::initToolTips()
 {
-    typedef struct 
+    using TooltipInfo = pair<uint, CString>;
+    array<TooltipInfo, 10> infos =
     {
-        uint id;
-        CString text;
-    } TooltipInfo;
-
-    TooltipInfo infos[] =
-    {
-        { IDC_PLAY_RECORDFILEEDIT,  translate(IDS_TIP_PLAY_FILLRECORDNAME) },
-        { IDC_PLAY_BROWSEBUTTON,    translate(IDS_TIP_PLAY_BROWSE)         },
-        { IDC_PLAY_PLAYBUTTON,      translate(IDS_TIP_PLAY_PLAY)           },
-        { IDC_PLAY_PAUSEBUTTON,     translate(IDS_TIP_PLAY_PAUSE)          },
-        { IDC_PLAY_STOPBUTTON,      translate(IDS_TIP_PLAY_STOP)           },
-        { IDC_PLAY_PREVBUTTON,      translate(IDS_TIP_PLAY_PREV)           },
-        { IDC_PLAY_BACKBUTTON,      translate(IDS_TIP_PLAY_DECREASESPEED)  },
-        { IDC_PLAY_FORWBUTTON,      translate(IDS_TIP_PLAY_INCREASESPEED)  },
-        { IDC_PLAY_NEXTBUTTON,      translate(IDS_TIP_PLAY_NEXT)           },
-        { IDC_PLAY_SPEEDCOMBOBOX,   translate(IDS_TIP_PLAY_CHANGESPEED)    },
+        TooltipInfo{ IDC_PLAY_RECORDFILEEDIT,  translate(IDS_TIP_PLAY_FILLRECORDNAME) },
+        TooltipInfo{ IDC_PLAY_BROWSEBUTTON,    translate(IDS_TIP_PLAY_BROWSE)         },
+        TooltipInfo{ IDC_PLAY_PLAYBUTTON,      translate(IDS_TIP_PLAY_PLAY)           },
+        TooltipInfo{ IDC_PLAY_PAUSEBUTTON,     translate(IDS_TIP_PLAY_PAUSE)          },
+        TooltipInfo{ IDC_PLAY_STOPBUTTON,      translate(IDS_TIP_PLAY_STOP)           },
+        TooltipInfo{ IDC_PLAY_PREVBUTTON,      translate(IDS_TIP_PLAY_PREV)           },
+        TooltipInfo{ IDC_PLAY_BACKBUTTON,      translate(IDS_TIP_PLAY_DECREASESPEED)  },
+        TooltipInfo{ IDC_PLAY_FORWBUTTON,      translate(IDS_TIP_PLAY_INCREASESPEED)  },
+        TooltipInfo{ IDC_PLAY_NEXTBUTTON,      translate(IDS_TIP_PLAY_NEXT)           },
+        TooltipInfo{ IDC_PLAY_SPEEDCOMBOBOX,   translate(IDS_TIP_PLAY_CHANGESPEED)    },
     };
 
-    uint count = sizeof(infos) / sizeof(TooltipInfo);
-    while (count--)
+    for (TooltipInfo& tooltipInfo : infos)
     {
-        TooltipInfo& tooltipInfo = infos[count];
-
         CToolTipCtrl toolTip;
         toolTip.Create(*this, 0, (LPCTSTR)0, WS_POPUP | TTS_ALWAYSTIP);
 
@@ -227,8 +196,8 @@ void PlaybackWindow::initToolTips()
         info.cbSize     = sizeof(TOOLINFO);
         info.hwnd       = *this;
         info.uFlags     = TTF_IDISHWND | TTF_SUBCLASS;
-        info.uId        = (UINT_PTR)(HWND)GetDlgItem(tooltipInfo.id);
-        info.lpszText   = tooltipInfo.text.GetBuffer();
+        info.uId        = (UINT_PTR)(HWND)GetDlgItem(tooltipInfo.first);
+        info.lpszText   = tooltipInfo.second.GetBuffer();
 
         toolTip.AddTool(&info);
         toolTips.push_back(toolTip);

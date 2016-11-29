@@ -31,6 +31,8 @@ public:
     /// @param maskSymbol - symbol to be replaced in string by '\0'
     static CString makeFilter(const CString& filter, TCHAR maskSymbol = TEXT('#'));
 
+    static void changeControlFontSize(HWND parentHwnd, uint controlId, uint fontSize);
+
 private:
     static BOOL CALLBACK setSystemDefaultFontCallback(HWND hwnd, LPARAM lParam);
 

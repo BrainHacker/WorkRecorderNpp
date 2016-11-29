@@ -11,7 +11,7 @@ msgstr ""
 
 #. Dialog control
 #: DIALOGCONTROL.101.Static.1002
-msgid "static: select record file:"
+msgid "static: select input record file:"
 msgstr "Select record file:"
 
 #. Dialog control
@@ -65,9 +65,19 @@ msgid "static: multiplier"
 msgstr "x"
 
 #. Dialog control
-#: DIALOGCONTROL.102.Button.1
-msgid "Record"
-msgstr ""
+#: DIALOGCONTROL.102.Static.1017
+msgid "static: select output record file:"
+msgstr "Save record as:"
+
+#. Dialog control
+#: DIALOGCONTROL.102.Button.1020
+msgid "button: start recording"
+msgstr "●"
+
+#. Dialog control
+#: DIALOGCONTROL.102.Static.1021
+msgid "static: start recording"
+msgstr "Start recording"
 
 #. String resource
 #: STRING.10000
@@ -175,3 +185,7 @@ msgstr "Go to next chapter"
 msgid "tooltip: change playback speed"
 msgstr "Choose playback speed"
 
+#. String resource
+#: STRING.10021
+msgid "button: stop recording"
+msgstr "■"

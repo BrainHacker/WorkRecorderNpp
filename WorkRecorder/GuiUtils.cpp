@@ -53,3 +53,17 @@ CString GuiUtils::makeFilter(const CString& filter, TCHAR maskSymbol /*= TEXT('#
 
     return result;
 }
+
+//static
+void GuiUtils::changeControlFontSize(HWND parentHwnd, uint controlId, uint fontSize)
+{
+    CWindow control = GetDlgItem(parentHwnd, controlId);
+    CFontHandle font = control.GetFont();
+
+    CLogFont logFont;
+    font.GetLogFont(&logFont);
+
+    logFont.SetHeight(fontSize);
+    font = logFont.CreateFontIndirect();
+    control.SetFont(font);
+}

@@ -26,9 +26,11 @@
 // standard files
 #include <list>
 #include <unordered_map>
+#include <array>
 #include <sstream>
 #include <memory>
 #include <mutex>
+#include <fstream>
 
 using namespace std;
 

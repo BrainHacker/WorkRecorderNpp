@@ -33,13 +33,26 @@ public:
     {
         idle,
         playing,
+        playingPaused,
         recording,
+        recordingPaused,
     };
+
+    virtual void startRecording() override;
+    virtual void startPlaying() override;
+
+    virtual void stop() override;
+    virtual void pause() override;
+    virtual void resume() override;
 
     virtual void onTextAdded(int position, const char* text, int length, uhyper timestamp) override;
     virtual void onTextRemoved(int position, const char* text, int length, uhyper timestamp) override;
 
 private:
+    void onStartRecording();
+
     mutex engineGuard;
     State state = State::idle;
+
+    ofstream recordStream;
 };

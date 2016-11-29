@@ -28,6 +28,14 @@ class EngineIface
 public:
     virtual ~EngineIface() = default;
 
+    // todo: move to separate class for State handling
+    virtual void startRecording() = 0;
+    virtual void startPlaying() = 0;
+
+    virtual void stop() = 0;
+    virtual void pause() = 0;
+    virtual void resume() = 0;
+
     virtual void onTextAdded(int position, const char* text, int length, uhyper timestamp) = 0;
     virtual void onTextRemoved(int position, const char* text, int length, uhyper timestamp) = 0;
 };
