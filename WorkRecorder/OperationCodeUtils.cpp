@@ -38,36 +38,40 @@ std::unordered_map<OperationCode, OperationCode> OperationCodesUtils::oppositeOp
 };
 
 // static
-void OperationCodesUtils::format(std::ostream& output, const OpCodeInfo& opCode)
+void OperationCodesUtils::format(std::ostream& output, OpCodeInfo* opCode)
 {
+    assert(opCode, Constants::strNullPtr);
+
     uint totalSize = 0;
 
-    output << (byte)opCode.code;
+    output << (byte)opCode->code;
     totalSize += sizeof(byte);
     
-    if (opCode.numField != undefined(opCode.numField))
+    if (opCode->numField != undefined(opCode->numField))
     {
-        uint size = IoUtils::writeVarInteger(output, opCode.numField);
+        uint size = IoUtils::writeVarInteger(output, opCode->numField);
         assert(size <= numMaxIntegerSize, Constants::strOverflow);
 
         totalSize += size;
     }
     else
     {
-        size_t stringSize = opCode.strField.size();
+        size_t stringSize = opCode->strField.size();
         if (stringSize)
         {
             assert(stringSize <= numMaxStringSize, Constants::strOverflow);
             output << (byte)stringSize;
             totalSize += sizeof(byte);
 
-            output << opCode.strField.c_str();
+            output << opCode->strField.c_str();
             totalSize += stringSize;
         }
     }
 
     assert(totalSize <= UCHAR_MAX, Constants::strOverflow);
     output << (byte)totalSize;
+
+    opCode->clear();
 }
 
 // static

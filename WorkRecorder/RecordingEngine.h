@@ -23,11 +23,13 @@
 
 #pragma once
 
-class RecordingEngine : public EngineIface, public EngineStateMachine
+class RecordingEngine : public EngineIface
 {
 public:
     RecordingEngine() = default;
     virtual ~RecordingEngine() = default;
+
+    virtual void setRecordingOptions(const RecordingOptions& options) override;
 
     virtual void startRecording(const wstring& fileName) override;
     virtual void startPlaying(const wstring& fileName) override;
@@ -41,7 +43,13 @@ public:
 
 private:
     void onStartRecording(const wstring& fileName);
+    void onStopRecording();
 
     mutex engineGuard;
+
+    RecordingOptions options;
     ofstream recordStream;
+
+    OpCodeInfo currentOpCode;
+    int cursorPosition = 0;
 };

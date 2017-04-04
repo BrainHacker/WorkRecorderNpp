@@ -69,16 +69,6 @@ msgstr "x"
 msgid "static: select output record file:"
 msgstr "Save record as:"
 
-#. Dialog control
-#: DIALOGCONTROL.102.Button.1020
-msgid "button: start recording"
-msgstr "●"
-
-#. Dialog control
-#: DIALOGCONTROL.102.Static.1021
-msgid "static: start recording"
-msgstr "Start recording"
-
 #. String resource
 #: STRING.10000
 msgid "title: playback window"
@@ -187,5 +177,20 @@ msgstr "Choose playback speed"
 
 #. String resource
 #: STRING.10021
+msgid "button: start recording"
+msgstr "●"
+
+#. String resource
+#: STRING.10022
 msgid "button: stop recording"
 msgstr "■"
+
+#. String resource
+#: STRING.10023
+msgid "static: start recording"
+msgstr "Start recording"
+
+#. String resource
+#: STRING.10024
+msgid "static: recording in process"
+msgstr "Recording in process..."

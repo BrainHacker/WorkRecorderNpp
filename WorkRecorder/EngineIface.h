@@ -23,10 +23,12 @@
 
 #pragma once
 
-class EngineIface
+class EngineIface : public EngineStateMachine
 {
 public:
     virtual ~EngineIface() = default;
+
+    virtual void setRecordingOptions(const RecordingOptions& options) = 0;
 
     virtual void startRecording(const wstring& fileName) = 0;
     virtual void startPlaying(const wstring& fileName) = 0;

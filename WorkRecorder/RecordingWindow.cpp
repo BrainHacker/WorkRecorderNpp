@@ -35,6 +35,8 @@ void RecordingWindow::setEngine(EnginePtr engine)
 
 LRESULT RecordingWindow::OnInitDialog(UINT msgId, WPARAM wP, LPARAM lp, BOOL& handled)
 {
+    setInitialTextToControls();
+
     GuiUtils::setSystemDefaultFont(*this);
     translateWindow(*this, IDD_RECORDINGDLG);
 
@@ -60,9 +62,43 @@ LRESULT RecordingWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL&
 
 LRESULT RecordingWindow::OnRecordButtonPush(WORD code, WORD id, HWND hwnd, BOOL& handled)
 {
-    CString fileName;
-    GetDlgItemText(IDC_RECORD_RECORDFILEEDIT, fileName);
+    EngineState engineState = engine->getState();
+    switch (engineState)
+    {
+        case EngineState::idle:
+        {
+            SetDlgItemText(IDC_RECORD_TOGGLEBUTTON, translate(IDS_BUTTON_STOPRECORDING));
+            SetDlgItemText(IDC_RECORD_STATESTATIC, translate(IDS_STATIC_RECORDINGINPROCESS));
 
-    engine->startRecording(wstring(fileName));
+            RecordingOptions options;
+            options.isCleanMode = true;
+
+            CString fileName;
+            GetDlgItemText(IDC_RECORD_RECORDFILEEDIT, fileName);
+
+            engine->setRecordingOptions(options);
+            engine->startRecording(wstring(fileName));
+        }
+        break;
+
+        case EngineState::recording:
+        {
+            setInitialTextToControls();
+            engine->stop();
+        }
+        break;
+
+        default:
+        {
+            // todo
+        }
+        break;
+    }
     return S_OK;
+}
+
+void RecordingWindow::setInitialTextToControls()
+{
+    SetDlgItemText(IDC_RECORD_TOGGLEBUTTON, translate(IDS_BUTTON_STARTRECORDING));
+    SetDlgItemText(IDC_RECORD_STATESTATIC, translate(IDS_STATIC_STARTRECORDING));
 }

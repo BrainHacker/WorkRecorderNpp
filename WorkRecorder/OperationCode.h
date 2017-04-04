@@ -103,4 +103,19 @@ struct OpCodeInfo
     OperationCode code;
     std::string strField;
     qword numField = undefined(numField);
+
+    inline bool isEmpty() const;
+    inline void clear();
 };
+
+inline bool OpCodeInfo::isEmpty() const
+{
+    return strField.empty() && numField == undefined(numField);
+}
+
+inline void OpCodeInfo::clear()
+{
+    code = OperationCode::totalCount;
+    strField.clear();
+    numField = undefined(numField);
+}

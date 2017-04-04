@@ -67,8 +67,9 @@ using namespace std;
 // Engine
 #include "OperationCode.h"
 #include "OperationCodeUtils.h"
-#include "EngineIface.h"
+#include "RecordingOptions.h"
 #include "EngineStateMachine.h"
+#include "EngineIface.h"
 #include "RecordingEngine.h"
 
 // Plug-in files
