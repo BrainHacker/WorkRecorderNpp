@@ -176,6 +176,9 @@
     <ClInclude Include="EngineStateMachine.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="RecordingOptions.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WorkRecorder.rc">
