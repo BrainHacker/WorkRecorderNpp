@@ -23,6 +23,14 @@
 
 #include "common.h"
 
+RecordingEngine::~RecordingEngine()
+{
+    if (playbackThread.joinable())
+    {
+        playbackThread.join();
+    }
+}
+
 void RecordingEngine::setRecordingOptions(const RecordingOptions& options)
 {
     this->options = options;
@@ -37,8 +45,24 @@ void RecordingEngine::startRecording(const wstring& fileName)
 
 void RecordingEngine::startPlaying(const wstring& fileName)
 {
-    //assert(state == EngineState::idle, "Engine state change failure");
-    setState(EngineState::playing);
+    auto nppData = PluginCore::getInstance().getNppData();
+    HWND nppHandle = nppData._nppHandle;
+
+    int currentScintillaViewIndex = -1;
+    ::SendMessage(nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&currentScintillaViewIndex);
+
+    if (currentScintillaViewIndex == -1)
+    {
+        // todo: handle this situation
+    }
+    else
+    {
+        HWND scintillaHandle = (currentScintillaViewIndex ? nppData._scintillaSecondHandle : nppData._scintillaMainHandle);
+
+        //assert(state == EngineState::idle, "Engine state change failure");
+        setState(EngineState::playing);
+        playbackThread = thread(playbackRoutine, fileName, scintillaHandle);
+    }
 }
 
 void RecordingEngine::stop()
@@ -161,7 +185,7 @@ void RecordingEngine::onTextRemoved(int position, const char* text, int length, 
         {
             OpCodeInfo opCode;
             opCode.code = OperationCode::setCursorPosition;
-            opCode.numField = position + length;
+            opCode.numField = position + length; //bug!
             OperationCodesUtils::format(recordStream, &opCode);
         }
 
@@ -175,7 +199,7 @@ void RecordingEngine::onTextRemoved(int position, const char* text, int length, 
 
 void RecordingEngine::onStartRecording(const wstring& fileName)
 {
-    recordStream = ofstream(fileName);
+    recordStream = ofstream(fileName, ios_base::binary);
 
     currentOpCode.clear();
     cursorPosition = 0;
@@ -188,4 +212,42 @@ void RecordingEngine::onStopRecording()
 
     recordStream.close();
     recordStream = ofstream();
+}
+
+// static
+void RecordingEngine::playbackRoutine(const wstring& fileName, HWND scintillaHandle)
+{
+    const auto numTimeout = chrono::milliseconds(100);
+
+    ifstream inputStream = ifstream(fileName, ios::binary);
+    assert(inputStream.is_open(), "IO error");
+
+    while (inputStream.peek() != EOF)
+    {
+        OpCodeInfo opCode = OperationCodesUtils::parse(inputStream);
+        switch (opCode.code)
+        {
+        case OperationCode::setCursorPosition:
+            ::SendMessage(scintillaHandle, SCI_GOTOPOS, (WPARAM)opCode.numField, 0);
+            break;
+
+        case OperationCode::insertString:
+            ::SendMessage(scintillaHandle, SCI_ADDTEXT, opCode.strField.size(), (LPARAM)opCode.strField.c_str());
+            ::SendMessage(scintillaHandle, SCI_SCROLLCARET, 0, 0);
+            break;
+
+        case OperationCode::removeString:
+            //todo
+            break;
+
+        case OperationCode::typeString:
+            for (auto c : opCode.strField)
+            {
+                ::SendMessage(scintillaHandle, SCI_ADDTEXT, 1, (LPARAM)&c);
+                ::SendMessage(scintillaHandle, SCI_SCROLLCARET, 0, 0);
+                this_thread::sleep_for(chrono::milliseconds(100));
+            }
+            break;
+        }
+    }
 }

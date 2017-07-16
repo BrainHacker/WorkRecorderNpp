@@ -25,7 +25,7 @@
 const uint OperationCodesUtils::numMaxIntegerSize = UCHAR_MAX - sizeof(byte) - sizeof(dword); //header + overall size
 const uint OperationCodesUtils::numMaxStringSize = OperationCodesUtils::numMaxIntegerSize - sizeof(byte); // + string size
 
-std::unordered_map<OperationCode, OperationCode> OperationCodesUtils::oppositeOperationCodes =
+unordered_map<OperationCode, OperationCode> OperationCodesUtils::oppositeOperationCodes =
 {
     {OperationCode::insertString, OperationCode::removeString},
     {OperationCode::removeString, OperationCode::insertString},
@@ -38,7 +38,7 @@ std::unordered_map<OperationCode, OperationCode> OperationCodesUtils::oppositeOp
 };
 
 // static
-void OperationCodesUtils::format(std::ostream& output, OpCodeInfo* opCode)
+void OperationCodesUtils::format(ostream& output, OpCodeInfo* opCode)
 {
     assert(opCode, Constants::strNullPtr);
 
@@ -68,6 +68,7 @@ void OperationCodesUtils::format(std::ostream& output, OpCodeInfo* opCode)
         }
     }
 
+    totalSize += sizeof(byte);
     assert(totalSize <= UCHAR_MAX, Constants::strOverflow);
     output << (byte)totalSize;
 
@@ -75,11 +76,55 @@ void OperationCodesUtils::format(std::ostream& output, OpCodeInfo* opCode)
 }
 
 // static
-OpCodeInfo OperationCodesUtils::parse(std::istream& input)
+OpCodeInfo OperationCodesUtils::parse(istream& input)
 {
     OpCodeInfo opCode;
-    // todo
 
+    uint totalSize = 0;
+    input >> (byte&)opCode.code;
+    totalSize += sizeof(byte);
+
+    switch (opCode.code)
+    {
+        case OperationCode::pausePlayback:
+        //nothing to do
+        break;
+
+        case OperationCode::setCursorPosition:
+        case OperationCode::sleepTime:
+        {
+            totalSize += IoUtils::readVarInteger(input, &opCode.numField);
+        }
+        break;
+
+        case OperationCode::insertString:
+        case OperationCode::removeString:
+        case OperationCode::typeString:
+        case OperationCode::untypeString:
+        case OperationCode::pullString:
+        case OperationCode::pushString:
+        {
+            byte size = 0;
+            input >> size;
+            totalSize += sizeof(byte);
+
+            vector<char> buffer(size);
+            input.read(buffer.data(), size);
+            opCode.strField = string(buffer.data(), size);
+            totalSize += size;
+        }
+        break;
+
+        default:
+            //todo assert
+            break;
+    }
+
+    byte size = 0;
+    input >> size;
+    totalSize += sizeof(size);
+
+    assert(totalSize == size, "Format error");
     return opCode;
 }
 

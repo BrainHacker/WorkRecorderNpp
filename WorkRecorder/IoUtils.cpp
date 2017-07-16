@@ -23,24 +23,28 @@
 #include "common.h"
 
 // static
-uhyper IoUtils::readVarInteger(std::istream& input)
+uint IoUtils::readVarInteger(istream& input, uhyper* valuePtr)
 {
-    uhyper value = 0;
-    
+    assert(valuePtr, ::Constants::strNullPtr);
+    uhyper& value = *valuePtr;
+    value = 0;
+
+    uint totalSize = 0;
     byte currentByte = 0;
     do
     {
         input >> currentByte;
+        totalSize += sizeof(byte);
         
         value <<= Constants::numSignificantBitCount;
         value |= currentByte >> (CHAR_BIT - Constants::numSignificantBitCount);
     } while (currentByte & Constants::numContinueBit);
 
-    return value;
+    return totalSize;
 }
 
 // static
-uint IoUtils::writeVarInteger(std::ostream& output, uhyper value)
+uint IoUtils::writeVarInteger(ostream& output, uhyper value)
 {
     uint totalSize = 0;
     byte currentByte = 0;

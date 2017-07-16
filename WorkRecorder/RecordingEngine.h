@@ -27,7 +27,7 @@ class RecordingEngine : public EngineIface
 {
 public:
     RecordingEngine() = default;
-    virtual ~RecordingEngine() = default;
+    virtual ~RecordingEngine();
 
     virtual void setRecordingOptions(const RecordingOptions& options) override;
 
@@ -45,10 +45,14 @@ private:
     void onStartRecording(const wstring& fileName);
     void onStopRecording();
 
+    static void playbackRoutine(const wstring& fileName, HWND scintillaHandle);
+
     mutex engineGuard;
 
     RecordingOptions options;
     ofstream recordStream;
+
+    thread playbackThread;
 
     OpCodeInfo currentOpCode;
     int cursorPosition = 0;

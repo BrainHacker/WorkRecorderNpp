@@ -25,8 +25,8 @@
 class IoUtils
 {
 public:
-    static uhyper readVarInteger(std::istream& input);
-    static uint writeVarInteger(std::ostream& output, uhyper value);
+    static uint readVarInteger(istream& input, uhyper* valuePtr);
+    static uint writeVarInteger(ostream& output, uhyper value);
 private:
     enum Constants
     {

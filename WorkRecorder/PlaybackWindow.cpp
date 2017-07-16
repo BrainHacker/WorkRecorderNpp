@@ -183,6 +183,23 @@ LRESULT PlaybackWindow::OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& 
     return S_OK;
 }
 
+LRESULT PlaybackWindow::OnPlayButtonPressed(WORD code, WORD id, HWND hwnd, BOOL & handled)
+{
+    EngineState engineState = engine->getState();
+    switch (engineState)
+    {
+        case EngineState::idle:
+        {
+            CString fileName;
+            GetDlgItemText(IDC_PLAY_RECORDFILEEDIT, fileName);
+
+            engine->startPlaying(wstring(fileName));
+        }
+        break;
+    }
+    return S_OK;
+}
+
 LRESULT PlaybackWindow::OnRecordFileNameChanged(WORD code, WORD id, HWND hwnd, BOOL& handled)
 {
     CEdit edit = GetDlgItem(IDC_PLAY_RECORDFILEEDIT);

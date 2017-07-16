@@ -25,8 +25,8 @@
 class OperationCodesUtils
 {
 public:
-    static void format(std::ostream& output, OpCodeInfo* opCode);
-    static OpCodeInfo parse(std::istream& input);
+    static void format(ostream& output, OpCodeInfo* opCode);
+    static OpCodeInfo parse(istream& input);
 
     static bool hasOppositeCode(OperationCode code);
     static OperationCode getOppositeCode(OperationCode code);
@@ -35,5 +35,5 @@ public:
     static const uint numMaxStringSize;
 
 private:
-    static std::unordered_map<OperationCode, OperationCode> oppositeOperationCodes;
+    static unordered_map<OperationCode, OperationCode> oppositeOperationCodes;
 };

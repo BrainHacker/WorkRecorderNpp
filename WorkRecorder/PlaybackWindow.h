@@ -43,6 +43,7 @@ public:
         MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
         MESSAGE_HANDLER(WM_LBUTTONDOWN, OnClick)
         COMMAND_ID_HANDLER(IDC_PLAY_BROWSEBUTTON, OnBrowseRecordFile)
+        COMMAND_ID_HANDLER(IDC_PLAY_PLAYBUTTON, OnPlayButtonPressed)
         COMMAND_HANDLER(IDC_PLAY_RECORDFILEEDIT, EN_CHANGE, OnRecordFileNameChanged)
         CHAIN_MSG_MAP(CDialogResize<PlaybackWindow>)
     END_MSG_MAP()
@@ -65,6 +66,7 @@ private:
 
     /// Command handlers
     LRESULT OnBrowseRecordFile(WORD code, WORD id, HWND hwnd, BOOL& handled);
+    LRESULT OnPlayButtonPressed(WORD code, WORD id, HWND hwnd, BOOL& handled);
     LRESULT OnRecordFileNameChanged(WORD code, WORD id, HWND hwnd, BOOL& handled);
 
     /// Init controls

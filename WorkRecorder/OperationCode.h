@@ -23,7 +23,7 @@
 #pragma once
 
 /// Enumeration of supported operations codes and their brief description
-enum OperationCode
+enum OperationCode : byte
 {
     // common operations
 
@@ -100,8 +100,8 @@ enum OperationCode
 
 struct OpCodeInfo
 {
-    OperationCode code;
-    std::string strField;
+    OperationCode code = OperationCode::totalCount;
+    string strField;
     qword numField = undefined(numField);
 
     inline bool isEmpty() const;
